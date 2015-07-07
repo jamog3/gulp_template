@@ -1,0 +1,148 @@
+var gulp = require('gulp');
+var watch = require('gulp-watch');
+var sass = require('gulp-sass');
+var spritesmith = require('gulp.spritesmith');
+var autoprefixer = require('gulp-autoprefixer');
+var browserSync =require('browser-sync');
+// var reload = browserSync.reload;
+var plumber = require('gulp-plumber');
+var notify  = require('gulp-notify');
+var cached = require('gulp-cached');
+var imagemin = require('gulp-imagemin');
+var pngquant = require('imagemin-pngquant');
+var changed  = require('gulp-changed');
+var ejs = require("gulp-ejs");
+
+// path指定
+var setPath = {
+  srcDir : 'src/',
+  distDir : 'dist/',
+  srcImage : 'src/images/',
+  distImage : 'dist/images/',
+  srcCss : 'src/stylesheets/',
+  distCss : 'dist/stylesheets/',
+  srcScript : 'src/javascripts/',
+  distScript : 'dist/javascripts/'
+}
+
+// ejs
+gulp.task('ejs', function() {
+  // ルートパス取得用
+  var rootPath = __dirname + '/' + setPath.srcDir;
+  gulp.src([
+    setPath.srcDir + '**/*.ejs',
+    '!' + setPath.srcDir + '_partial/**/*'
+    ])
+    // 変更されたファイルのみコンパイル
+    // .pipe(cached('ejs'))
+    .pipe(ejs({
+      'rootPath': rootPath
+      }))
+    .pipe(gulp.dest( setPath.distDir ))
+    .pipe(browserSync.reload({stream: true}));
+});
+
+// sassコンパイル
+gulp.task('sass', function () {
+  gulp.src( setPath.srcCss + '**/*.scss')
+    // 変更されたファイルのみコンパイル
+    .pipe(cached('sass'))
+    // エラーメッセージ通知
+    .pipe(plumber({
+      errorHandler: notify.onError("Error: <%= error.message %>")
+    }))
+    .pipe(sass({
+      outputStyle: 'compressed' // nested/expanded/compact/compressed の4種類から選択
+    }))
+    // ベンダープレフィックス追加
+    .pipe(autoprefixer ({
+      browsers: [
+        'last 2 versions',
+        'ie 9', 'ios 6',
+        'android 4'
+      ],
+      cascade: false
+    }))
+    .pipe(gulp.dest( setPath.distCss ))
+    .pipe(browserSync.reload({stream: true}));
+});
+
+// スプライト画像を作成
+gulp.task('sprite', function () {
+  // スプライトにする愉快な画像達
+  var spriteData = gulp.src( setPath.srcImage + 'sprites/*.png').pipe(spritesmith({
+    imgName: 'sprites.png', // スプライトの画像
+    cssName: '_sprites.scss', // 生成されるscss
+    imgPath: '../images/sprites.png', // 生成されるscssに記載されるパス
+    cssFormat: 'scss', // フォーマット
+    padding: 10,
+    algorithm: 'binary-tree',
+    // cssVarMap: function (sprite) {
+    // sprite.name;
+      // sprite.name = 'sprite-' + sprite.name; //VarMap(生成されるScssにいろいろな変数の一覧を生成)
+    // }
+  }));
+  spriteData.img.pipe(gulp.dest( setPath.srcImage )); // imgNameで指定したスプライト画像の保存先
+  spriteData.css.pipe(gulp.dest( setPath.srcCss + '_partial/')); // cssNameで指定したcssの保存先
+});
+
+// 画像圧縮
+gulp.task( 'imagemin', function(){
+  gulp.src([
+    setPath.srcImage + '**/*.+(jpg|jpeg|gif|svg)' ,
+    // spritesを除外
+    '!' + setPath.srcImage + 'sprites/*'
+    ])
+    .pipe(changed( setPath.distImage ))
+    .pipe(imagemin( {
+      optimizationLevel: 7,
+      progressive: true,
+      interlaced: true
+    } ))
+    .pipe(gulp.dest( setPath.distImage ));
+});
+gulp.task( 'imageminPng', function(){
+  gulp.src([
+    setPath.srcImage + '**/*.png' ,
+    // spritesを除外
+    '!' + setPath.srcImage + 'sprites/*'
+    ])
+    .pipe(changed( setPath.distImage ))
+    .pipe(imagemin({
+      use: [
+        // pngquantを使用
+        pngquant({
+          quality: 60 - 80,
+          speed: 1
+        })
+      ]
+    }))
+    .pipe(gulp.dest( setPath.distImage ));
+});
+
+// ローカルサーバとか
+gulp.task('browserSync', function() {
+  browserSync({
+    server: {
+      baseDir: setPath.distDir
+    }
+  });
+});
+
+// watch
+gulp.task('watch', function () {
+console.log(__dirname);
+  gulp.watch( setPath.srcDir + '**/*.ejs', ['ejs']);
+  gulp.watch( setPath.srcCss + '**/*.scss', ['sass']);
+  // ファイルが追加された時にも実行
+  watch( setPath.srcImage + '**/*.+(jpg|jpeg|gif|svg)' , function () {
+    gulp.start('imagemin');
+  });
+  watch( setPath.srcImage + '**/*.png' , function () {
+    gulp.start('imageminPng');
+  });
+  // gulp.watch( setPath.distDir + '**/*' , reload);
+});
+
+// default
+gulp.task('default', ['browserSync', 'ejs', 'sass', 'imagemin','imageminPng', 'watch']);

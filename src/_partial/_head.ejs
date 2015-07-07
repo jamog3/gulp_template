@@ -1,0 +1,20 @@
+<% /* ファイルのルートパスを取得 */
+  var filePath = filename.replace(rootPath,'/').replace('index.ejs','').replace('.ejs','')
+
+  %><meta charset="UTF-8">
+  <title><%= pageTitle %>｜</title>
+  <meta name="keywords" content="<%= metaKeywords %>">
+  <meta name="description" content="<%= metaDescription %>">
+  <meta property="og:title" content="<%= pageTitle %>｜">
+<% if( filePath == '/') { %>
+  <meta property="og:type" content="website">
+<% } else { %>
+  <meta property="og:type" content="article">
+<% } %>
+  <meta property="og:description" content="<%= metaDescription %>">
+  <meta property="og:url" content="http://www.***.com<%= filePath %>">
+  <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=yes">
+  <meta name="format-detection" content="telephone=no">
+  <meta property="og:locale" content="ja_JP">
+
+  <link rel="stylesheet" href="stylesheets/style.css">

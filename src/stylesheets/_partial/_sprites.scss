@@ -1,0 +1,92 @@
+/*
+SCSS variables are information about icon's compiled state, stored under its original file name
+
+.icon-home {
+  width: $icon-home-width;
+}
+
+The large array-like variables contain all information about a single icon
+$icon-home: x y offset_x offset_y width height total_width total_height image_path;
+
+At the bottom of this section, we provide information about the spritesheet itself
+$spritesheet: width height image $spritesheet-sprites;
+*/
+$sample1-name: 'sample1';
+$sample1-x: 0px;
+$sample1-y: 0px;
+$sample1-offset-x: 0px;
+$sample1-offset-y: 0px;
+$sample1-width: 100px;
+$sample1-height: 100px;
+$sample1-total-width: 210px;
+$sample1-total-height: 100px;
+$sample1-image: '../images/sprites.png';
+$sample1: (0px, 0px, 0px, 0px, 100px, 100px, 210px, 100px, '../images/sprites.png', 'sample1', );
+$sample2-name: 'sample2';
+$sample2-x: 110px;
+$sample2-y: 0px;
+$sample2-offset-x: -110px;
+$sample2-offset-y: 0px;
+$sample2-width: 100px;
+$sample2-height: 100px;
+$sample2-total-width: 210px;
+$sample2-total-height: 100px;
+$sample2-image: '../images/sprites.png';
+$sample2: (110px, 0px, -110px, 0px, 100px, 100px, 210px, 100px, '../images/sprites.png', 'sample2', );
+$spritesheet-width: 210px;
+$spritesheet-height: 100px;
+$spritesheet-image: '../images/sprites.png';
+$spritesheet-sprites: ($sample1, $sample2, );
+$spritesheet: (210px, 100px, '../images/sprites.png', $spritesheet-sprites, );
+
+/*
+The provided mixins are intended to be used with the array-like variables
+
+.icon-home {
+  @include sprite-width($icon-home);
+}
+
+.icon-email {
+  @include sprite($icon-email);
+}
+*/
+@mixin sprite-width($sprite) {
+  width: nth($sprite, 5);
+}
+
+@mixin sprite-height($sprite) {
+  height: nth($sprite, 6);
+}
+
+@mixin sprite-position($sprite) {
+  $sprite-offset-x: nth($sprite, 3);
+  $sprite-offset-y: nth($sprite, 4);
+  background-position: $sprite-offset-x  $sprite-offset-y;
+}
+
+@mixin sprite-image($sprite) {
+  $sprite-image: nth($sprite, 9);
+  background-image: url(#{$sprite-image});
+}
+
+@mixin sprite($sprite) {
+  @include sprite-image($sprite);
+  @include sprite-position($sprite);
+  @include sprite-width($sprite);
+  @include sprite-height($sprite);
+}
+
+/*
+The `sprites` mixin generates identical output to the CSS template
+  but can be overridden inside of SCSS
+
+@include sprites($spritesheet-sprites);
+*/
+@mixin sprites($sprites) {
+  @each $sprite in $sprites {
+    $sprite-name: nth($sprite, 10);
+    .#{$sprite-name} {
+      @include sprite($sprite);
+    }
+  }
+}

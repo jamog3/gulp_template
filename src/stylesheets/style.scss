@@ -1,0 +1,70 @@
+@charset "utf-8";
+
+// include
+@import '_partial/normalize';
+@import '_partial/base';
+@import '_partial/sprites';
+
+// retina
+// @include sprite($***);
+@mixin r-sprite-width($sprite) {
+  width: nth($sprite, 5)/2;
+}
+
+@mixin r-sprite-height($sprite) {
+  height: nth($sprite, 6)/2;
+}
+@mixin r-sprite-position($sprite) {
+  $sprite-offset-x: nth($sprite, 3)/2;
+  $sprite-offset-y: nth($sprite, 4)/2;
+  background-position: $sprite-offset-x $sprite-offset-y;
+}
+@mixin r-sprite-size($sprite) {
+  background-size: nth($sprite, 7)/2 nth($sprite, 8)/2;
+}
+@mixin r-sprite($sprite) {
+  @include sprite-image($sprite);
+  @include r-sprite-position($sprite);
+  @include r-sprite-width($sprite);
+  @include r-sprite-height($sprite);
+  @include r-sprite-size($sprite);
+}
+
+// @include notxt;
+@mixin notxt {
+  overflow: hidden;
+  white-space: nowrap;
+  text-indent: 100%;
+}
+//  @include clear;
+@mixin clear {
+  &:after {
+    display: block;
+    clear: both;
+    content: '';
+  }
+}
+//  @include ov;
+@mixin ov {
+  transition: opacity 0.2s linear;
+  opacity: 1;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+}
+
+$color: #0e100f;
+$linkcolor: #008cd9;
+$hovercolor: #008cd9;
+$ls: 0.1em;
+$minw: 950px;
+$spWidth: 640px;
+$MDMotion: cubic-bezier(.55,0,.1,1);
+
+//
+.hoge {
+  padding: 10px;
+  color: #FFF;
+  @include sprite($sample2);
+}
