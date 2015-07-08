@@ -25,7 +25,7 @@ var setPath = {
   distScript : 'dist/javascripts/'
 }
 
-// ejs
+// ejs  _partialか否か
 gulp.task('ejs', function() {
   // ルートパス取得用
   var rootPath = __dirname + '/' + setPath.srcDir;
@@ -34,7 +34,20 @@ gulp.task('ejs', function() {
     '!' + setPath.srcDir + '_partial/**/*'
     ])
     // 変更されたファイルのみコンパイル
-    // .pipe(cached('ejs'))
+    .pipe(cached('ejs'))
+    .pipe(ejs({
+      'rootPath': rootPath
+      }))
+    .pipe(gulp.dest( setPath.distDir ))
+    .pipe(browserSync.reload({stream: true}));
+});
+gulp.task('ejsAll', function() {
+  // ルートパス取得用
+  var rootPath = __dirname + '/' + setPath.srcDir;
+  gulp.src([
+    setPath.srcDir + '**/*.ejs',
+    '!' + setPath.srcDir + '_partial/**/*'
+    ])
     .pipe(ejs({
       'rootPath': rootPath
       }))
@@ -132,8 +145,9 @@ gulp.task('browserSync', function() {
 // watch
 gulp.task('watch', function () {
 console.log(__dirname);
-  gulp.watch( setPath.srcDir + '**/*.ejs', ['ejs']);
-  gulp.watch( setPath.srcCss + '**/*.scss', ['sass']);
+  gulp.watch( [setPath.srcDir + '**/*.ejs'], ['!' + setPath.srcDir + '_partial/**/*.ejs'], ['ejs'] );
+  gulp.watch( setPath.srcDir + '_partial/**/*.ejs', ['ejsAll'] );
+  gulp.watch( setPath.srcCss + '**/*.scss', ['sass'] );
   // ファイルが追加された時にも実行
   watch( setPath.srcImage + '**/*.+(jpg|jpeg|gif|svg)' , function () {
     gulp.start('imagemin');
