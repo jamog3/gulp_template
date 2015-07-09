@@ -20,10 +20,11 @@ var pngquant = require('imagemin-pngquant');
 var spritesmith = require('gulp.spritesmith');
 
 // javascripts
-// var browserify = require('browserify');
-// var watchify = require('watchify');
-// var licensify = require('licensify');
-// var uglify = require('gulp-uglify');
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
+var uglify = require('gulp-uglify');
+var buffer = require('vinyl-buffer');
+var jshint = require('gulp-jshint');
 
 // path指定
 var setPath = {
@@ -146,6 +147,19 @@ gulp.task( 'imageminPng', function(){
     .pipe(gulp.dest( setPath.distImage ));
 });
 
+// javascripts
+gulp.task('browserify', function() {
+  browserify({
+    entries: [ setPath.srcScript + 'main.js']
+  }).bundle()
+  //.on('error', handleErrors)
+  .pipe(source('bundle.js'))
+  .pipe(buffer())
+  // .pipe(jshint())
+  .pipe(uglify({preserveComments:'some'})) // minify＆ライセンスコメント残す
+  .pipe(gulp.dest( setPath.distScript ));
+});
+
 // ローカルサーバとか
 gulp.task('browserSync', function() {
   browserSync({
@@ -157,7 +171,7 @@ gulp.task('browserSync', function() {
 
 // watch
 gulp.task('watch', function () {
-  gulp.watch( [setPath.srcDir + '**/*.ejs'], ['!' + setPath.srcDir + '_partial/**/*.ejs'], ['ejs'] );
+  gulp.watch( [setPath.srcDir + '**/*.ejs', '!' + setPath.srcDir + '_partial/**/*.ejs'], ['ejs'] );
   gulp.watch( setPath.srcDir + '_partial/**/*.ejs', ['ejsAll'] );
   gulp.watch( setPath.srcCss + '**/*.scss', ['sass'] );
   // ファイルが追加された時にも実行
@@ -167,8 +181,9 @@ gulp.task('watch', function () {
   watch( setPath.srcImage + '**/*.png' , function () {
     gulp.start('imageminPng');
   });
+  gulp.watch( setPath.srcScript + '**/*', ['browserify']);
   // gulp.watch( setPath.distDir + '**/*' , reload);
 });
 
 // default
-gulp.task('default', ['browserSync', 'ejs', 'sass', 'imagemin','imageminPng', 'watch']);
+gulp.task('default', ['browserSync', 'ejsAll', 'sass', 'imagemin','imageminPng', 'browserify', 'watch']);
