@@ -1,17 +1,29 @@
 var gulp = require('gulp');
 var watch = require('gulp-watch');
-var sass = require('gulp-sass');
-var spritesmith = require('gulp.spritesmith');
-var autoprefixer = require('gulp-autoprefixer');
-var browserSync =require('browser-sync');
+var browserSync = require('browser-sync');
 // var reload = browserSync.reload;
 var plumber = require('gulp-plumber');
 var notify  = require('gulp-notify');
 var cached = require('gulp-cached');
+var changed  = require('gulp-changed');
+
+// html
+var ejs = require("gulp-ejs");
+
+// stylesheets
+var sass = require('gulp-sass');
+var autoprefixer = require('gulp-autoprefixer');
+
+// images
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
-var changed  = require('gulp-changed');
-var ejs = require("gulp-ejs");
+var spritesmith = require('gulp.spritesmith');
+
+// javascripts
+// var browserify = require('browserify');
+// var watchify = require('watchify');
+// var licensify = require('licensify');
+// var uglify = require('gulp-uglify');
 
 // path指定
 var setPath = {
@@ -25,7 +37,7 @@ var setPath = {
   distScript : 'dist/javascripts/'
 }
 
-// ejs  _partialか否か
+// ejs
 gulp.task('ejs', function() {
   // ルートパス取得用
   var rootPath = __dirname + '/' + setPath.srcDir;
@@ -41,6 +53,7 @@ gulp.task('ejs', function() {
     .pipe(gulp.dest( setPath.distDir ))
     .pipe(browserSync.reload({stream: true}));
 });
+// ejs _partialの場合、全体をコンパイル
 gulp.task('ejsAll', function() {
   // ルートパス取得用
   var rootPath = __dirname + '/' + setPath.srcDir;
@@ -144,7 +157,6 @@ gulp.task('browserSync', function() {
 
 // watch
 gulp.task('watch', function () {
-console.log(__dirname);
   gulp.watch( [setPath.srcDir + '**/*.ejs'], ['!' + setPath.srcDir + '_partial/**/*.ejs'], ['ejs'] );
   gulp.watch( setPath.srcDir + '_partial/**/*.ejs', ['ejsAll'] );
   gulp.watch( setPath.srcCss + '**/*.scss', ['sass'] );
