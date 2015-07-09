@@ -21,6 +21,7 @@ var spritesmith = require('gulp.spritesmith');
 
 // javascripts
 var browserify = require('browserify');
+var watchify = require('gulp-watchify');
 var source = require('vinyl-source-stream');
 var uglify = require('gulp-uglify');
 var buffer = require('vinyl-buffer');
@@ -149,16 +150,29 @@ gulp.task( 'imageminPng', function(){
 
 // javascripts
 gulp.task('browserify', function() {
+  // エラーメッセージ
+  var handleErrors = function() {
+    var args = Array.prototype.slice.call(arguments);
+    // Send error to notification center with gulp-notify
+    notify.onError({
+      title: "Compile Error",
+      message: "<%= error %>"
+    }).apply(this, args);
+    // Keep gulp from hanging on this task
+    this.emit('end');
+  };
   browserify({
     entries: [ setPath.srcScript + 'main.js']
   }).bundle()
-  //.on('error', handleErrors)
+  .on('error', handleErrors)
+  .pipe(plumber())
   .pipe(source('bundle.js'))
   .pipe(buffer())
   // .pipe(jshint())
   .pipe(uglify({preserveComments:'some'})) // minify＆ライセンスコメント残す
   .pipe(gulp.dest( setPath.distScript ));
 });
+
 
 // ローカルサーバとか
 gulp.task('browserSync', function() {
