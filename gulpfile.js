@@ -21,7 +21,6 @@ var spritesmith = require('gulp.spritesmith');
 
 // javascripts
 var browserify = require('browserify');
-var watchify = require('gulp-watchify');
 var source = require('vinyl-source-stream');
 var uglify = require('gulp-uglify');
 var buffer = require('vinyl-buffer');
@@ -169,7 +168,7 @@ gulp.task('browserify', function(){
   .pipe(buffer())
   // .pipe(jshint())
   .pipe(uglify({preserveComments:'some'})) // minify＆ライセンスコメント残す
-  .pipe(gulp.dest( setPath.distScript ));
+  .pipe(gulp.dest( setPath.distScript ))
   .pipe(browserSync.reload({stream: true}));
 });
 
