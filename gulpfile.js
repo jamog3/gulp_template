@@ -45,6 +45,9 @@ gulp.task('ejs', function(){
     setPath.srcDir+'**/*.ejs',
     '!'+setPath.srcDir+'_partial/**/*'
     ])
+    .pipe(plumber({
+      errorHandler: notify.onError("Error: <%= error.message %>")
+    }))
     // 変更されたファイルのみコンパイル
     .pipe(cached('ejs'))
     .pipe(ejs({
@@ -61,6 +64,9 @@ gulp.task('ejsAll', function(){
     setPath.srcDir+'**/*.ejs',
     '!'+setPath.srcDir+'_partial/**/*'
     ])
+    .pipe(plumber({
+      errorHandler: notify.onError("Error: <%= error.message %>")
+    }))
     .pipe(ejs({
       'rootPath': rootPath
       }))
