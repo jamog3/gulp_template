@@ -25,7 +25,6 @@ var watchify = require('gulp-watchify');
 var source = require('vinyl-source-stream');
 var uglify = require('gulp-uglify');
 var buffer = require('vinyl-buffer');
-var jshint = require('gulp-jshint');
 
 // path指定
 var setPath = {
