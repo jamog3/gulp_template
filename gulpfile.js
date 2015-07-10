@@ -40,38 +40,38 @@ var setPath = {
 }
 
 // ejs
-gulp.task('ejs', function() {
+gulp.task('ejs', function(){
   // ルートパス取得用
-  var rootPath = __dirname + '/' + setPath.srcDir;
+  var rootPath = __dirname+'/'+setPath.srcDir;
   gulp.src([
-    setPath.srcDir + '**/*.ejs',
-    '!' + setPath.srcDir + '_partial/**/*'
+    setPath.srcDir+'**/*.ejs',
+    '!'+setPath.srcDir+'_partial/**/*'
     ])
     // 変更されたファイルのみコンパイル
     .pipe(cached('ejs'))
     .pipe(ejs({
       'rootPath': rootPath
       }))
-    .pipe(gulp.dest( setPath.distDir ))
+    .pipe(gulp.dest(setPath.distDir))
     .pipe(browserSync.reload({stream: true}));
 });
 // ejs _partialの場合、全体をコンパイル
-gulp.task('ejsAll', function() {
+gulp.task('ejsAll', function(){
   // ルートパス取得用
-  var rootPath = __dirname + '/' + setPath.srcDir;
+  var rootPath = __dirname+'/'+setPath.srcDir;
   gulp.src([
-    setPath.srcDir + '**/*.ejs',
-    '!' + setPath.srcDir + '_partial/**/*'
+    setPath.srcDir+'**/*.ejs',
+    '!'+setPath.srcDir+'_partial/**/*'
     ])
     .pipe(ejs({
       'rootPath': rootPath
       }))
-    .pipe(gulp.dest( setPath.distDir ))
+    .pipe(gulp.dest(setPath.distDir))
     .pipe(browserSync.reload({stream: true}));
 });
 
 // sassコンパイル
-gulp.task('sass', function () {
+gulp.task('sass', function(){
   gulp.src( setPath.srcCss + '**/*.scss')
     // 変更されたファイルのみコンパイル
     .pipe(cached('sass'))
@@ -91,14 +91,14 @@ gulp.task('sass', function () {
       ],
       cascade: false
     }))
-    .pipe(gulp.dest( setPath.distCss ))
+    .pipe(gulp.dest(setPath.distCss))
     .pipe(browserSync.reload({stream: true}));
 });
 
 // スプライト画像を作成
-gulp.task('sprite', function () {
+gulp.task('sprite', function(){
   // スプライトにする愉快な画像達
-  var spriteData = gulp.src( setPath.srcImage + 'sprites/*.png').pipe(spritesmith({
+  var spriteData = gulp.src(setPath.srcImage+'sprites/*.png').pipe(spritesmith({
     imgName: 'sprites.png', // スプライトの画像
     cssName: '_sprites.scss', // 生成されるscss
     imgPath: '../images/sprites.png', // 生成されるscssに記載されるパス
@@ -110,15 +110,15 @@ gulp.task('sprite', function () {
       // sprite.name = 'sprite-' + sprite.name; //VarMap(生成されるScssにいろいろな変数の一覧を生成)
     // }
   }));
-  spriteData.img.pipe(gulp.dest( setPath.srcImage )); // imgNameで指定したスプライト画像の保存先
-  spriteData.css.pipe(gulp.dest( setPath.srcCss + '_partial/')); // cssNameで指定したcssの保存先
+  spriteData.img.pipe(gulp.dest(setPath.srcImage)); // imgNameで指定したスプライト画像の保存先
+  spriteData.css.pipe(gulp.dest(setPath.srcCss+'_partial/')); // cssNameで指定したcssの保存先
 });
 
 // 画像圧縮
 gulp.task( 'imagemin', function(){
   gulp.src([
     setPath.srcImage + '**/*.+(jpg|jpeg|gif|svg)' ,
-    // spritesを除外
+    // spritesの素材を除外
     '!' + setPath.srcImage + 'sprites/*'
     ])
     .pipe(changed( setPath.distImage ))
@@ -127,15 +127,15 @@ gulp.task( 'imagemin', function(){
       progressive: true,
       interlaced: true
     } ))
-    .pipe(gulp.dest( setPath.distImage ));
+    .pipe(gulp.dest(setPath.distImage));
 });
 gulp.task( 'imageminPng', function(){
   gulp.src([
     setPath.srcImage + '**/*.png' ,
-    // spritesを除外
-    '!' + setPath.srcImage + 'sprites/*'
+    // spritesの素材を除外
+    '!'+setPath.srcImage+'sprites/*'
     ])
-    .pipe(changed( setPath.distImage ))
+    .pipe(changed(setPath.distImage))
     .pipe(imagemin({
       use: [
         // pngquantを使用
@@ -149,9 +149,9 @@ gulp.task( 'imageminPng', function(){
 });
 
 // javascripts
-gulp.task('browserify', function() {
+gulp.task('browserify', function(){
   // エラーメッセージ
-  var handleErrors = function() {
+  var errorMsg = function() {
     var args = Array.prototype.slice.call(arguments);
     // Send error to notification center with gulp-notify
     notify.onError({
@@ -162,15 +162,16 @@ gulp.task('browserify', function() {
     this.emit('end');
   };
   browserify({
-    entries: [ setPath.srcScript + 'main.js']
+    entries: [setPath.srcScript+'main.js']
   }).bundle()
-  .on('error', handleErrors)
+  .on('error', errorMsg)
   .pipe(plumber())
   .pipe(source('bundle.js'))
   .pipe(buffer())
   // .pipe(jshint())
   .pipe(uglify({preserveComments:'some'})) // minify＆ライセンスコメント残す
   .pipe(gulp.dest( setPath.distScript ));
+  .pipe(browserSync.reload({stream: true}));
 });
 
 
@@ -184,18 +185,18 @@ gulp.task('browserSync', function() {
 });
 
 // watch
-gulp.task('watch', function () {
-  gulp.watch( [setPath.srcDir + '**/*.ejs', '!' + setPath.srcDir + '_partial/**/*.ejs'], ['ejs'] );
-  gulp.watch( setPath.srcDir + '_partial/**/*.ejs', ['ejsAll'] );
-  gulp.watch( setPath.srcCss + '**/*.scss', ['sass'] );
+gulp.task('watch', function(){
+  gulp.watch([setPath.srcDir+'**/*.ejs', '!'+setPath.srcDir+'_partial/**/*.ejs'], ['ejs']);
+  gulp.watch(setPath.srcDir+'_partial/**/*.ejs', ['ejsAll']);
+  gulp.watch(setPath.srcCss+'**/*.scss', ['sass']);
   // ファイルが追加された時にも実行
-  watch( setPath.srcImage + '**/*.+(jpg|jpeg|gif|svg)' , function () {
+  watch(setPath.srcImage+'**/*.+(jpg|jpeg|gif|svg)', function() {
     gulp.start('imagemin');
   });
-  watch( setPath.srcImage + '**/*.png' , function () {
+  watch(setPath.srcImage+'**/*.png', function() {
     gulp.start('imageminPng');
   });
-  gulp.watch( setPath.srcScript + '**/*', ['browserify']);
+  gulp.watch(setPath.srcScript+'**/*', ['browserify']);
   // gulp.watch( setPath.distDir + '**/*' , reload);
 });
 
