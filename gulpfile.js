@@ -78,7 +78,7 @@ gulp.task('ejsAll', function(){
 gulp.task('sass', function(){
   gulp.src( setPath.srcCss + '**/*.scss')
     // 変更されたファイルのみコンパイル
-    .pipe(cached('sass'))
+    //.pipe(cached('sass'))
     // エラーメッセージ通知
     .pipe(plumber({
       errorHandler: notify.onError("Error: <%= error.message %>")
@@ -123,7 +123,7 @@ gulp.task( 'imagemin', function(){
   gulp.src([
     setPath.srcImage + '**/*.+(jpg|jpeg|gif|svg)' ,
     // spritesの素材を除外
-    '!' + setPath.srcImage + 'sprites/*'
+    '!' + setPath.srcImage + 'sprites/**/*'
     ])
     .pipe(changed( setPath.distImage ))
     .pipe(imagemin( {
