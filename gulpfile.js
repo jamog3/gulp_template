@@ -137,7 +137,7 @@ gulp.task( 'imageminPng', function(){
   gulp.src([
     setPath.srcImage + '**/*.png' ,
     // spritesの素材を除外
-    '!'+setPath.srcImage+'sprites/*'
+    '!'+setPath.srcImage+'sprites/**/*'
     ])
     .pipe(changed(setPath.distImage))
     .pipe(imagemin({
