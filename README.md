@@ -23,6 +23,13 @@ $ cd projectName
 $ gulp
 ```
 
+## スプライト画像の作成は都度手動対応のため下記のコマンドを実行
+
+```
+$ cd projectName
+$ gulp sprite
+```
+
 ## ディレクトリ構成
 
 srcを編集。
