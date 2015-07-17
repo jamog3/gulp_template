@@ -48,6 +48,7 @@ var setPath = {
 var releaseFlag = false;
 var ejsAllFlag = true;
 
+
 // ejs
 gulp.task('ejs', function(){
   // ルートパス取得用
@@ -67,6 +68,7 @@ gulp.task('ejs', function(){
     .pipe(gulp.dest(setPath.distDir))
     .pipe(browserSync.reload({stream: true}));
 });
+
 
 // sassコンパイル
 gulp.task('sass', function(){
@@ -97,11 +99,12 @@ gulp.task('sass', function(){
       ],
       cascade: false
     }))
-    // release時はなし
+    // release時はなし。soucemapを生成。
     .pipe(gulpif( releaseFlag == false , sourcemaps.write('.')))
     .pipe(gulp.dest(setPath.distCss))
     .pipe(browserSync.reload({stream: true}));
 });
+
 
 // スプライト画像を作成
 gulp.task('sprite', function(){
@@ -121,6 +124,7 @@ gulp.task('sprite', function(){
   spriteData.img.pipe(gulp.dest(setPath.srcImage)); // imgNameで指定したスプライト画像の保存先
   spriteData.css.pipe(gulp.dest(setPath.srcCss+'_partial/')); // cssNameで指定したcssの保存先
 });
+
 
 // 画像圧縮
 gulp.task( 'imagemin', function(){
@@ -182,7 +186,7 @@ gulp.task('browserify', function(){
   .pipe(gulp.dest( setPath.distScript ))
   .pipe(browserSync.reload({stream: true}));
 });
-// javascriptをminifyしてコピーする
+// browserifyしないjavascriptをminifyしてコピー
 gulp.task('jsCopy', function(){
   gulp.src(setPath.srcScript+'libs/*')
     .pipe(plumber({
@@ -202,6 +206,7 @@ gulp.task('browserSync', function() {
     }
   });
 });
+
 
 // リリース時はこれを叩く
 gulp.task('release', function(cb){
@@ -239,6 +244,7 @@ gulp.task('watch', function(){
   gulp.watch(setPath.srcScript+'**/*', ['browserify']);
   // gulp.watch( setPath.distDir + '**/*' , reload);
 });
+
 
 // default
 gulp.task('default', ['browserSync', 'ejs', 'sass', 'imagemin','imageminPng', 'browserify', 'jsCopy', 'watch']);
