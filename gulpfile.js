@@ -6,6 +6,7 @@ var plumber = require('gulp-plumber');
 var notify  = require('gulp-notify');
 var cached = require('gulp-cached');
 var changed  = require('gulp-changed');
+var gulpif  = require('gulp-if');
 
 // html
 var ejs = require("gulp-ejs");
@@ -13,6 +14,7 @@ var ejs = require("gulp-ejs");
 // stylesheets
 var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
+var sourcemaps = require('gulp-sourcemaps');
 
 // images
 var imagemin = require('gulp-imagemin');
@@ -28,14 +30,22 @@ var buffer = require('vinyl-buffer');
 // path指定
 var setPath = {
   srcDir : 'src/',
-  distDir : 'dist/',
   srcImage : 'src/images/',
-  distImage : 'dist/images/',
   srcCss : 'src/stylesheets/',
-  distCss : 'dist/stylesheets/',
   srcScript : 'src/javascripts/',
-  distScript : 'dist/javascripts/'
+  distDir : 'dist/',
+  distImage : 'dist/images/',
+  distCss : 'dist/stylesheets/',
+  distScript : 'dist/javascripts/',
+  releaseDir : 'release/',
+  releaseImage : 'release/images/',
+  releaseCss : 'release/stylesheets/',
+  releaseScript : 'release/javascripts/'
 }
+
+// flagのデフォルト
+var releaseFlag = false;
+var ejsAllFlag = false;
 
 // ejs
 gulp.task('ejs', function(){
@@ -56,7 +66,7 @@ gulp.task('ejs', function(){
     .pipe(gulp.dest(setPath.distDir))
     .pipe(browserSync.reload({stream: true}));
 });
-// ejs _partialの場合、全体をコンパイル
+// ejs _partialの場合、全体をコンパイルのフラグを立てる
 gulp.task('ejsAll', function(){
   // ルートパス取得用
   var rootPath = __dirname+'/'+setPath.srcDir;
@@ -77,15 +87,21 @@ gulp.task('ejsAll', function(){
 // sassコンパイル
 gulp.task('sass', function(){
   gulp.src( setPath.srcCss + '**/*.scss')
-    // 変更されたファイルのみコンパイル
-    //.pipe(cached('sass'))
     // エラーメッセージ通知
     .pipe(plumber({
       errorHandler: notify.onError("Error: <%= error.message %>")
     }))
-    .pipe(sass({
-      outputStyle: 'compressed' // nested/expanded/compact/compressed の4種類から選択
-    }))
+    .pipe(sourcemaps.init())
+    .pipe(gulpif( releaseFlag == false ,
+      // releaseじゃない
+      sass({
+        outputStyle: 'expanded' // nested/expanded/compact/compressed の4種類から選択
+      }) ,
+      // releaseのとき
+      sass({
+        outputStyle: 'compressed'
+      })
+    ))
     // ベンダープレフィックス追加
     .pipe(autoprefixer ({
       browsers: [
@@ -95,6 +111,8 @@ gulp.task('sass', function(){
       ],
       cascade: false
     }))
+    // release時はなし
+    .pipe(gulpif( releaseFlag == false , sourcemaps.write('.')))
     .pipe(gulp.dest(setPath.distCss))
     .pipe(browserSync.reload({stream: true}));
 });
@@ -187,6 +205,18 @@ gulp.task('browserSync', function() {
     }
   });
 });
+
+// リリース時はこれを叩く
+gulp.task('release', function(){
+  releaseFlag = true;
+  setPath.distDir = setPath.releaseDir;
+  setPath.distImage = setPath.releaseImage;
+  setPath.distCss = setPath.releaseCss;
+  setPath.distScript = setPath.releaseScript;
+  console.log(setPath.releaseCss);
+  gulp.start('sass');
+});
+
 
 // watch
 gulp.task('watch', function(){

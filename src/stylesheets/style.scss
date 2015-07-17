@@ -66,5 +66,18 @@ $MDMotion: cubic-bezier(.55,0,.1,1);
 .hoge {
   padding: 10px;
   color: #FFF;
+  display: flex;
   @include sprite($sample2);
+}
+.hoge2 {
+  display: flex;
+}
+.hoge3 {
+  display: flex;
+}
+.hoge4 {
+  display: flex;
+}
+.hoge5 {
+  display: flex;
 }
