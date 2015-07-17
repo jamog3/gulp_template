@@ -75,10 +75,11 @@ gulp.task('sass', function(){
     .pipe(plumber({
       errorHandler: notify.onError("Error: <%= error.message %>")
     }))
-    .pipe(sourcemaps.init())
+    // release時はなし
+    .pipe(gulpif( releaseFlag == false , sourcemaps.init()))
     .pipe(gulpif( releaseFlag == false ,
-      // releaseじゃない
       sass({
+        // mapの行数がズレるため、compressedにしない
         outputStyle: 'expanded' // nested/expanded/compact/compressed の4種類から選択
       }) ,
       // releaseのとき
@@ -89,8 +90,9 @@ gulp.task('sass', function(){
     // ベンダープレフィックス追加
     .pipe(autoprefixer ({
       browsers: [
-        'last 2 versions',
-        'ie 9', 'ios 6',
+        'last 2 versions' ,
+        'ie 9' ,
+        'ios 6' ,
         'android 4'
       ],
       cascade: false
