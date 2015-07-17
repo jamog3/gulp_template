@@ -7,6 +7,7 @@ var notify  = require('gulp-notify');
 var cached = require('gulp-cached');
 var changed  = require('gulp-changed');
 var gulpif  = require('gulp-if');
+var del = require('del');
 
 // html
 var ejs = require("gulp-ejs");
@@ -190,15 +191,14 @@ gulp.task('browserSync', function() {
 });
 
 // リリース時はこれを叩く
-gulp.task('release', function(){
+gulp.task('release', function(cb){
+  del(['release'], cb); // releaseディレクトリを一旦削除
   releaseFlag = true;
   setPath.distDir = setPath.releaseDir;
   setPath.distImage = setPath.releaseImage;
   setPath.distCss = setPath.releaseCss;
   setPath.distScript = setPath.releaseScript;
-  console.log(setPath.releaseCss);
-  gulp.start(['ejs', 'sass']);
-  console.log('done!')
+  gulp.start(['ejs', 'sass', 'imagemin', 'imageminPng', 'browserify']);
 });
 
 
