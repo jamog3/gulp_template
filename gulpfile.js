@@ -45,7 +45,7 @@ var setPath = {
 
 // flagのデフォルト
 var releaseFlag = false;
-var ejsAllFlag = false;
+var ejsAllFlag = true;
 
 // ejs
 gulp.task('ejs', function(){
@@ -58,25 +58,8 @@ gulp.task('ejs', function(){
     .pipe(plumber({
       errorHandler: notify.onError("Error: <%= error.message %>")
     }))
-    // 変更されたファイルのみコンパイル
-    .pipe(cached('ejs'))
-    .pipe(ejs({
-      'rootPath': rootPath
-      }))
-    .pipe(gulp.dest(setPath.distDir))
-    .pipe(browserSync.reload({stream: true}));
-});
-// ejs _partialの場合、全体をコンパイルのフラグを立てる
-gulp.task('ejsAll', function(){
-  // ルートパス取得用
-  var rootPath = __dirname+'/'+setPath.srcDir;
-  gulp.src([
-    setPath.srcDir+'**/*.ejs',
-    '!'+setPath.srcDir+'_partial/**/*'
-    ])
-    .pipe(plumber({
-      errorHandler: notify.onError("Error: <%= error.message %>")
-    }))
+    // 変更されたファイルのみコンパイル。ejs全体の時は使わない
+    .pipe(gulpif( ejsAllFlag == false , cached('ejs') ))
     .pipe(ejs({
       'rootPath': rootPath
       }))
@@ -214,14 +197,23 @@ gulp.task('release', function(){
   setPath.distCss = setPath.releaseCss;
   setPath.distScript = setPath.releaseScript;
   console.log(setPath.releaseCss);
-  gulp.start('sass');
+  gulp.start(['ejs', 'sass']);
+  console.log('done!')
 });
 
 
 // watch
 gulp.task('watch', function(){
-  gulp.watch([setPath.srcDir+'**/*.ejs', '!'+setPath.srcDir+'_partial/**/*.ejs'], ['ejs']);
-  gulp.watch(setPath.srcDir+'_partial/**/*.ejs', ['ejsAll']);
+  gulp.watch([setPath.srcDir+'**/*.ejs', '!'+setPath.srcDir+'_partial/**/*.ejs'], function() {
+    // ejs個別
+    ejsAllFlag = false;
+    gulp.start('ejs');
+  });
+  gulp.watch(setPath.srcDir+'_partial/**/*.ejs', function() {
+    // ejs全体
+    ejsAllFlag = true;
+    gulp.start('ejs');
+  });
   gulp.watch(setPath.srcCss+'**/*.scss', ['sass']);
   // ファイルが追加された時にも実行
   watch(setPath.srcImage+'**/*.+(jpg|jpeg|gif|svg)', function() {
@@ -235,4 +227,4 @@ gulp.task('watch', function(){
 });
 
 // default
-gulp.task('default', ['browserSync', 'ejsAll', 'sass', 'imagemin','imageminPng', 'browserify', 'watch']);
+gulp.task('default', ['browserSync', 'ejs', 'sass', 'imagemin','imageminPng', 'browserify', 'watch']);
