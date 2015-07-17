@@ -156,6 +156,7 @@ gulp.task( 'imageminPng', function(){
     .pipe(gulp.dest( setPath.distImage ));
 });
 
+
 // javascripts
 gulp.task('browserify', function(){
   // エラーメッセージ
@@ -181,6 +182,16 @@ gulp.task('browserify', function(){
   .pipe(gulp.dest( setPath.distScript ))
   .pipe(browserSync.reload({stream: true}));
 });
+// javascriptをminifyしてコピーする
+gulp.task('jsCopy', function(){
+  gulp.src(setPath.srcScript+'libs/*')
+    .pipe(plumber({
+      errorHandler: notify.onError("Error: <%= error.message %>")
+    }))
+    .pipe(uglify({preserveComments:'some'})) // minify＆ライセンスコメント残す
+    .pipe(gulp.dest(setPath.distScript+'libs/'))
+    .pipe(browserSync.reload({stream: true}));
+});
 
 
 // ローカルサーバとか
@@ -196,11 +207,12 @@ gulp.task('browserSync', function() {
 gulp.task('release', function(cb){
   del(['release'], cb); // releaseディレクトリを一旦削除
   releaseFlag = true;
+  // pathの上書き
   setPath.distDir = setPath.releaseDir;
   setPath.distImage = setPath.releaseImage;
   setPath.distCss = setPath.releaseCss;
   setPath.distScript = setPath.releaseScript;
-  gulp.start(['ejs', 'sass', 'imagemin', 'imageminPng', 'browserify']);
+  gulp.start(['ejs', 'sass', 'imagemin', 'imageminPng', 'browserify', 'jsCopy']);
 });
 
 
@@ -229,4 +241,4 @@ gulp.task('watch', function(){
 });
 
 // default
-gulp.task('default', ['browserSync', 'ejs', 'sass', 'imagemin','imageminPng', 'browserify', 'watch']);
+gulp.task('default', ['browserSync', 'ejs', 'sass', 'imagemin','imageminPng', 'browserify', 'jsCopy', 'watch']);
