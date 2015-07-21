@@ -1,9 +1,33 @@
 @charset "utf-8";
 
+// @include notxt;
+@mixin notxt {
+  overflow: hidden;
+  white-space: nowrap;
+  text-indent: 100%;
+}
+//  @include clear;
+@mixin clear {
+  &:after {
+    display: block;
+    clear: both;
+    content: '';
+  }
+}
+//  @include ov;
+@mixin ov {
+  transition: opacity 0.2s linear;
+  opacity: 1;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+}
+
 // include
 @import '_partial/normalize';
-@import '_partial/base';
 @import '_partial/sprites';
+@import '_partial/base';
 
 // retina
 // @include sprite($***);
@@ -28,30 +52,6 @@
   @include r-sprite-width($sprite);
   @include r-sprite-height($sprite);
   @include r-sprite-size($sprite);
-}
-
-// @include notxt;
-@mixin notxt {
-  overflow: hidden;
-  white-space: nowrap;
-  text-indent: 100%;
-}
-//  @include clear;
-@mixin clear {
-  &:after {
-    display: block;
-    clear: both;
-    content: '';
-  }
-}
-//  @include ov;
-@mixin ov {
-  transition: opacity 0.2s linear;
-  opacity: 1;
-  &:hover {
-    cursor: pointer;
-    opacity: 0.5;
-  }
 }
 
 $color: #0e100f;
