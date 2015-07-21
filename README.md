@@ -51,27 +51,32 @@ srcを編集。
 
 ```
 ├── dist/（ビルド後のソース）
-│   ├── index.html
 │   ├── javascripts/
 │   │    └── libs/ （browserifyしないjsはここに生成）
-│   └── stylesheets / images 等
-├── release/（納品ファイルがここに生成される）
+│   ├── stylesheets / images 等
+│   └── index.html
+│
 ├── node_modules/
 │   └── パッケージ各種
+│
+├── release/（納品ファイルがここに生成される）
+│
 ├── src/（ビルド前のソース）
 │   ├── _partial/（共通パーツのhtml）
-│   ├── index.ejs（html）
 │   ├── images/
 │   │    └── sprites/ （スプライト用png）
 │   ├── javascripts/
+│   │    ├── browserify_libs/ （browserifyするjsをここに格納）
 │   │    ├── libs/ （browserifyしないjsをここに格納）
 │   │    └── main.js
-│   └── stylesheets/
-│         ├── _partial/ （共通パーツのcss）
-│         └── style.scss
+│   ├── stylesheets/
+│   │    ├── _partial/ （共通パーツのcss）
+│   │    └── style.scss
+│   └── index.ejs など（htmlは拡張子をejsにする）
+│
 ├── .git/
 ├── .gitignore
-├── README.md
 ├── gulpfile.js
-└── package.json
+├── package.json
+└── README.md
 ```

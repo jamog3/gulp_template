@@ -24,6 +24,14 @@
   }
 }
 
+$color: #0e100f;
+$linkcolor: #008cd9;
+$hovercolor: #008cd9;
+$ls: 0.1em;
+$minw: 950px;
+$spWidth: 640px;
+$MDMotion: cubic-bezier(.55,0,.1,1);
+
 // include
 @import '_partial/normalize';
 @import '_partial/sprites';
@@ -53,14 +61,6 @@
   @include r-sprite-height($sprite);
   @include r-sprite-size($sprite);
 }
-
-$color: #0e100f;
-$linkcolor: #008cd9;
-$hovercolor: #008cd9;
-$ls: 0.1em;
-$minw: 950px;
-$spWidth: 640px;
-$MDMotion: cubic-bezier(.55,0,.1,1);
 
 //
 .hoge {
