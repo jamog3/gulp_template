@@ -152,7 +152,7 @@ gulp.task( 'imageminPng', function(){
       use: [
         // pngquantを使用
         pngquant({
-          quality: 60 - 80,
+          quality: 80 - 100,
           speed: 1
         })
       ]
@@ -209,8 +209,10 @@ gulp.task('browserSync', function() {
 
 
 // リリース時はこれを叩く
-gulp.task('release', function(cb){
-  del(['release'], cb); // releaseディレクトリを一旦削除
+gulp.task('release', ['release_del'], function() {
+  del('release'); // releaseディレクトリを削除後に生成開始
+});
+gulp.task('release_del', function(){
   releaseFlag = true;
   // pathの上書き
   setPath.distDir = setPath.releaseDir;
