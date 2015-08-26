@@ -29,8 +29,9 @@ $linkcolor: #008cd9;
 $hovercolor: #008cd9;
 $ls: 0.1em;
 $minw: 950px;
-$spWidth: 640px;
 $MDMotion: cubic-bezier(.55,0,.1,1);
+// media querys
+$spWidth: 640px;
 
 // include
 @import '_partial/normalize';
@@ -61,6 +62,29 @@ $MDMotion: cubic-bezier(.55,0,.1,1);
   @include r-sprite-height($sprite);
   @include r-sprite-size($sprite);
 }
+
+// media queries
+@mixin max-screen($break-point) {
+  @media screen and (max-width: $break-point) {
+    @content;
+  }
+}
+@mixin min-screen($break-point) {
+  @media screen and (min-width: $break-point) {
+    @content;
+  }
+}
+@mixin screen($break-point-min, $break-point-max) {
+  @media screen and (min-width: $break-point-min) and (max-width: $break-point-max) {
+    @content;
+  }
+}
+// .hoge {
+//   font-size: 20px;
+//   @include max-screen($spWidth) {
+//     font-size: 18px;
+//   }
+// }
 
 //
 .hoge {

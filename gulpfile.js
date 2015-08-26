@@ -16,6 +16,7 @@ var ejs = require("gulp-ejs");
 var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var sourcemaps = require('gulp-sourcemaps');
+var combineMq = require('gulp-combine-mq');
 
 // images
 var imagemin = require('gulp-imagemin');
@@ -87,6 +88,12 @@ gulp.task('sass', function(){
       // releaseのとき
       sass({
         outputStyle: 'compressed'
+      })
+    ))
+    // release時のみ、メディアクエリをまとめる
+    .pipe(gulpif( releaseFlag == true ,
+      combineMq({
+        beautify: false
       })
     ))
     // ベンダープレフィックス追加
