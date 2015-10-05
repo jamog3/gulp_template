@@ -51,7 +51,11 @@ var ejsAllFlag = true;
 
 
 // ejs
-gulp.task('ejs', function(){
+gulp.task('ejs', ['ejs_main'], function(){
+  // browserSync と ejsの相性が悪いので分離
+  browserSync.reload();
+});
+gulp.task('ejs_main', function(callback){
   // ルートパス取得用
   var rootPath = __dirname+'/'+setPath.srcDir;
   gulp.src([
@@ -67,7 +71,11 @@ gulp.task('ejs', function(){
       'rootPath': rootPath
       }))
     .pipe(gulp.dest(setPath.distDir))
-    .pipe(browserSync.reload({stream: true}));
+    .on('end', function() {
+      // callbackを実行してgulpにタスク完了を通知
+      callback();
+    });
+    //.pipe(browserSync.reload({stream: true}));
 });
 
 
@@ -216,17 +224,21 @@ gulp.task('browserSync', function() {
 
 
 // リリース時はこれを叩く
-gulp.task('release', ['release_del'], function() {
+gulp.task('release', ['release_main'], function() {
   del('release'); // releaseディレクトリを削除後に生成開始
 });
-gulp.task('release_del', function(){
+gulp.task('release_main', function(callback){
   releaseFlag = true;
   // pathの上書き
   setPath.distDir = setPath.releaseDir;
   setPath.distImage = setPath.releaseImage;
   setPath.distCss = setPath.releaseCss;
   setPath.distScript = setPath.releaseScript;
-  gulp.start(['ejs', 'sass', 'imagemin', 'imageminPng', 'browserify', 'jsCopy']);
+  gulp.start(['ejs', 'sass', 'imagemin', 'imageminPng', 'browserify', 'jsCopy'])
+    .on('end', function() {
+      // callbackを実行してgulpにタスク完了を通知
+      callback();
+    });
 });
 
 
