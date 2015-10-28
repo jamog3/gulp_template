@@ -17,6 +17,7 @@ gulp.task('build_main', function(callback){
   config.dist.css = config.build.css;
   config.dist.js = config.build.js;
   gulp.start([
+    'copy',
     'html',
     'css',
     'imgMin',
