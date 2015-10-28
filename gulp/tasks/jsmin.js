@@ -10,7 +10,7 @@ var uglify = require('gulp-uglify');
 
 
 // browserifyしないjavascriptをminifyしてコピー
-gulp.task('jsCopy', function(){
+gulp.task('jsMin', function(){
   gulp.src(config.src.js + 'libs/*')
     .pipe(plumber({
       errorHandler: notify.onError("Error: <%= error.message %>")

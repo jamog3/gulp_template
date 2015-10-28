@@ -14,7 +14,7 @@ var combineMq = require('gulp-combine-mq');
 
 // sassコンパイル
 gulp.task('css', function(){
-  gulp.src(config.src.css + '**/*.scss')
+  gulp.src(config.src.css + '**/*.sass')
     // エラーメッセージ通知
     .pipe(plumber({
       errorHandler: notify.onError("Error: <%= error.message %>")

@@ -23,7 +23,7 @@ gulp.task('build_main', function(callback){
     'imgMin',
     'imgMinPng',
     'js',
-    'jsCopy'
+    'jsMin'
     ]).on('end', function() {
       // callbackを実行してgulpにタスク完了を通知
       callback();
