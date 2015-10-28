@@ -1,9 +1,14 @@
 //- 変数初期設定
-- var headTitle       = ''
-- var headKeywords    = ''
-- var headDescription = ''
+- var head = {}
+- head.title       = ''
+- head.keywords    = ''
+- head.description = ''
+- var filePath = '/'
+
 - var siteTitle       = 'サイトタイトル'
-- var siteURL         = ''
+- var siteKeywords    = 'サイトタイトル'
+- var siteDescription = 'サイトタイトル'
+- var siteURL         = 'http://hoge.com'
 
 //- 変数読み込み
 block vars
@@ -14,23 +19,28 @@ html(lang='js')
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
 
-    if headTitle === ''
+    if head.title === ''
       title #{siteTitle}
     else
-      title #{headTitle}｜#{siteTitle}
+      title #{head.title}｜#{siteTitle}
 
-    meta(name="keywords", content="#{headKeywords}")
-    meta(name="description", content="#{headDescription}")
+    meta(name="keywords", content="#{head.keywords}")
+    meta(name="description", content="#{head.description}")
 
-    if headTitle === ''
+    if head.title === ''
       meta(property="og:title", content="#{siteTitle}")
     else
-      meta(property="og:title", content="#{headTitle}｜#{siteTitle}")
+      meta(property="og:title", content="#{head.title}｜#{siteTitle}")
 
-    meta(property="og:description", content="#{headDescription}")
-    meta(property="og:url", content="")
+    meta(property="og:description", content="#{head.description}")
+    meta(property="og:url", content="#{siteURL}#{filePath}")
     meta(property="og:locale", content="ja_JP")
-    meta(property="og:type", content="website")
+
+    if filePath === '/'
+      meta(property="og:type", content="website")
+    else
+      meta(property="og:type", content="article")
+
     meta(property="og:image", content="")
 
     link(rel='stylesheet', href='./stylesheets/style.css')

@@ -1,9 +1,11 @@
 extends /_template/_layout
 
 block vars
-  - var headTitle       = 'タイトル'
-  - var headKeywords    = 'キーワード'
-  - var headDescription = '説明'
+  - var head = {}
+  - head.title       = ''
+  - head.keywords    = ''
+  - head.description = ''
+  - var filePath = '/'
 
 block content
   h2.hoge ほげほげ2
