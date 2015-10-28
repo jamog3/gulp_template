@@ -4,38 +4,35 @@ var browserSync = require('browser-sync');
 var plumber = require('gulp-plumber');
 var notify  = require('gulp-notify');
 var cached = require('gulp-cached');
+var reload = browserSync.reload;
 
 var config  = require('../config');
 
 // html
-var ejs = require("gulp-ejs");
+// var ejs = require("gulp-ejs");
+var jade = require("gulp-jade");
 
-// コンパイル
-gulp.task('html', ['html_main'], function(){
-  // browserSync と ejsの相性が悪いので分離
-  browserSync.reload();
-});
-
-gulp.task('html_main', function(callback){
-  // ルートパス取得用
+gulp.task('html', function() {
   var rootPath = config.root + config.src.root;
-
   gulp.src([
-    config.src.html + '**/*.ejs',
-    '!' + config.src.html + '_partial/**/*'
+    config.src.html + '**/*.jade',
+    '!' + config.src.html + '_template/**/*'
     ])
     .pipe(plumber({
       errorHandler: notify.onError("Error: <%= error.message %>")
     }))
     // 変更されたファイルのみコンパイル。ejs全体の時は使わない
-    .pipe(gulpif( !config.isEjsAllFlag , cached('ejs') ))
-    .pipe(ejs({
-      'rootPath': rootPath
-      }))
+    .pipe(gulpif( !config.isEjsAllFlag , cached('jade') ))
+    .pipe(jade({
+      // 出力ファイルが整形される
+      pretty: true,
+      // includeなどをルートパスで書けるようにする
+      basedir: rootPath,
+      // jadeに変数を渡す場合
+      locals: {
+        'rootPath': rootPath
+      }
+    }))
     .pipe(gulp.dest(config.dist.html))
-    .on('end', function() {
-      // callbackを実行してgulpにタスク完了を通知
-      callback();
-    });
-    //.pipe(browserSync.reload({stream: true}));
+    .on('end', reload);
 });

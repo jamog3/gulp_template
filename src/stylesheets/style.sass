@@ -1,0 +1,80 @@
+@charset "utf-8"
+
+@import '_partial/normalize'
+@import '_partial/sprites'
+@import '_partial/base'
+
+// +notxt
+=notxt
+  overflow: hidden
+  white-space: nowrap
+  text-indent: 100%
+
+//  +clear
+=clear
+  &:after
+    display: block
+    clear: both
+    content: ''
+
+//  +ov
+=ov
+  transition: opacity 0.2s linear
+  opacity: 1
+  &:hover
+    cursor: pointer
+    opacity: 0.5
+
+$color: #4a4a4a
+$bluecolor: #009ff1
+$linkcolor: #8a8a8a
+$hovercolor: #fff
+$ls: 0.15em
+$minw: 1000px
+$spWidth: 640px
+$MDMotion: cubic-bezier(0.55, 0, 0.1, 1)
+
+
+// retina
+// +r-sprite($***)
+=r-sprite-width($sprite)
+  width: nth($sprite, 5) / 2
+
+=r-sprite-height($sprite)
+  height: nth($sprite, 6) / 2
+
+=r-sprite-position($sprite)
+  $sprite-offset-x: nth($sprite, 3) / 2
+  $sprite-offset-y: nth($sprite, 4) / 2
+
+  background-position: $sprite-offset-x $sprite-offset-y
+
+=r-sprite-size($sprite)
+  background-size: (nth($sprite, 7) / 2) (nth($sprite, 8) / 2)
+
+=r-sprite($sprite)
+  +sprite-image($sprite)
+  +r-sprite-position($sprite)
+  +r-sprite-width($sprite)
+  +r-sprite-height($sprite)
+  +r-sprite-size($sprite)
+
+
+.hoge
+  padding: 10px;
+  color: #FFF;
+  display: flex;
+  +sprite($sample2);
+
+.hoge2
+  display: flex;
+
+.hoge3
+  display: flex;
+
+.hoge4
+  display: flex;
+
+.hoge5
+  display: flex;
+

@@ -1,0 +1,47 @@
+//- 変数初期設定
+- var headTitle       = ''
+- var headKeywords    = ''
+- var headDescription = ''
+- var siteTitle       = 'サイトタイトル'
+- var siteURL         = ''
+
+//- 変数読み込み
+block vars
+
+doctype html
+html(lang='js')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+
+    if headTitle === ''
+      title #{siteTitle}
+    else
+      title #{headTitle}｜#{siteTitle}
+
+    meta(name="keywords", content="#{headKeywords}")
+    meta(name="description", content="#{headDescription}")
+
+    if headTitle === ''
+      meta(property="og:title", content="#{siteTitle}")
+    else
+      meta(property="og:title", content="#{headTitle}｜#{siteTitle}")
+
+    meta(property="og:description", content="#{headDescription}")
+    meta(property="og:url", content="")
+    meta(property="og:locale", content="ja_JP")
+    meta(property="og:type", content="website")
+    meta(property="og:image", content="")
+
+    link(rel='stylesheet', href='./stylesheets/style.css')
+
+  body
+    .wrap
+      h1.title h1タイトル
+
+    include /_template/_head
+
+    block content
+
+    script(src='./javascripts/common.js')
+
