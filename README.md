@@ -38,7 +38,7 @@ cssのminifyや、.mapなどを省いたファイルを生成
 
 ```
 $ cd projectName
-$ gulp release
+$ gulp build
 ```
 
 ## ディレクトリ構成
@@ -50,7 +50,7 @@ srcを編集。
 + scss -> css
 
 ```
-├── dist/（ビルド後のソース）
+├── .temp/（ビルド後のソース）
 │   ├── javascripts/
 │   │    └── libs/ （browserifyしないjsはここに生成）
 │   ├── stylesheets / images 等
@@ -59,7 +59,7 @@ srcを編集。
 ├── node_modules/
 │   └── パッケージ各種
 │
-├── release/（納品ファイルがここに生成される）
+├── build/（納品ファイルがここに生成される）
 │
 ├── src/（ビルド前のソース）
 │   ├── _partial/（共通パーツのhtml）

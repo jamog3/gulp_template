@@ -19,20 +19,20 @@ gulp.task('css', function(){
     .pipe(plumber({
       errorHandler: notify.onError("Error: <%= error.message %>")
     }))
-    // release時はなし
-    .pipe(gulpif( !config.isReleaseFlag , sourcemaps.init()))
-    .pipe(gulpif( !config.isReleaseFlag ,
+    // Build時はなし
+    .pipe(gulpif( !config.isBuildFlag , sourcemaps.init()))
+    .pipe(gulpif( !config.isBuildFlag ,
       sass({
         // mapの行数がズレるため、compressedにしない
         outputStyle: 'expanded' // nested/expanded/compact/compressed の4種類から選択
       }) ,
-      // releaseのとき
+      // Buildのとき
       sass({
         outputStyle: 'compressed'
       })
     ))
-    // release時のみ、メディアクエリをまとめる
-    .pipe(gulpif( config.isReleaseFlag ,
+    // Build時のみ、メディアクエリをまとめる
+    .pipe(gulpif( config.isBuildFlag ,
       combineMq({
         beautify: false
       })
@@ -47,8 +47,8 @@ gulp.task('css', function(){
       ],
       cascade: false
     }))
-    // release時はなし。soucemapを生成。
-    .pipe(gulpif( !config.isReleaseFlag , sourcemaps.write('.')))
+    // Build時はなし。soucemapを生成。
+    .pipe(gulpif( !config.isBuildFlag , sourcemaps.write('.')))
     .pipe(gulp.dest(config.dist.css))
     .pipe(browserSync.reload({stream: true}));
 });

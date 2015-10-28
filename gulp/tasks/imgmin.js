@@ -34,6 +34,7 @@ gulp.task( 'imgMinPng', function(){
     .pipe(imagemin({
       use: [
         // pngquantを使用
+        // 色が変わるようなら100固定にする
         pngquant({
           quality: 80 - 100,
           speed: 1
