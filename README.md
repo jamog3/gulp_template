@@ -45,9 +45,9 @@ $ gulp build
 
 srcを編集。
 
-+ ejs -> html
++ jade -> html
 + js -> browserify -> js
-+ scss -> css
++ sass -> css
 
 ```
 ├── .temp/（ビルド後のソース）
