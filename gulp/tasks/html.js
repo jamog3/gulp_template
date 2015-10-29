@@ -22,7 +22,7 @@ gulp.task('html', function() {
       errorHandler: notify.onError("Error: <%= error.message %>")
     }))
     // 変更されたファイルのみコンパイル。ejs全体の時は使わない
-    .pipe(gulpif( !config.isEjsAllFlag , cached('jade') ))
+    .pipe(gulpif( !config.isHtmlAllFlag , cached('jade') ))
     .pipe(jade({
       // 出力ファイルが整形される
       pretty: true,

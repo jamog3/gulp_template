@@ -7,17 +7,17 @@ gulp.task('watch', function(){
 
   // html
   gulp.watch([
-    config.src.html + '**/*.ejs',
-    '!' + config.src.html + '_partial/**/*.ejs'
+    config.src.html + '**/*.jade',
+    '!' + config.src.html + '_partial/**/*'
   ], function() {
     // ejs個別
-    config.isEjsAllFlag = false;
+    config.isHtmlAllFlag = false;
     gulp.start('html');
   });
 
-  gulp.watch(config.src.html + '_partial/**/*.ejs', function() {
+  gulp.watch(config.src.html + '_partial/**/*.jade', function() {
     // ejs全体
-    config.isEjsAllFlag = true;
+    config.isHtmlAllFlag = true;
     gulp.start('html');
   });
 
