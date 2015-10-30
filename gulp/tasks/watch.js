@@ -22,7 +22,7 @@ gulp.task('watch', function(){
   });
 
   // css
-  gulp.watch(config.src.css + '**/*.scss', ['css']);
+  gulp.watch(config.src.css + '**/*.sass', ['css']);
 
   // img
   gulp.watch(config.src.img+'**/*.png', function() {
