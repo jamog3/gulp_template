@@ -1,5 +1,6 @@
 @charset "utf-8"
 
+@import '_partial/iconfont'
 @import '_partial/normalize'
 @import '_partial/sprites'
 @import '_partial/base'
@@ -61,20 +62,23 @@ $MDMotion: cubic-bezier(0.55, 0, 0.1, 1)
 
 
 .hoge
-  padding: 10px;
-  color: #FFF;
-  display: flex;
-  +sprite($sample2);
+  padding: 10px
+  color: #FFF
+  display: flex
+  +sprite($sample2)
 
 .hoge2
-  display: flex;
+  display: flex
+  &:before
+    display: block
+    +iconfont($si-glyph-anchor)
 
 .hoge3
-  display: flex;
+  display: flex
 
 .hoge4
-  display: flex;
+  display: flex
 
 .hoge5
-  display: flex;
+  display: flex
 
