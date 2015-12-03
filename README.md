@@ -12,14 +12,12 @@ $ npm install -g gulp
 
 ```
 #プロジェクトのディレクトリに移動して
-$ cd projectName
 $ npm install
 ```
 
 ## gulp の監視
 
 ```
-$ cd projectName
 $ gulp
 ```
 
@@ -28,8 +26,15 @@ $ gulp
 作成・更新は手動対応のため都度、下記のコマンドを実行
 
 ```
-$ cd projectName
 $ gulp sprite
+```
+
+## アイコンフォント
+
+作成・更新は手動対応のため都度、下記のコマンドを実行
+
+```
+$ gulp iconfont
 ```
 
 ## 納品ファイル生成
@@ -37,7 +42,6 @@ $ gulp sprite
 cssのminifyや、.mapなどを省いたファイルを生成
 
 ```
-$ cd projectName
 $ gulp build
 ```
 
@@ -63,6 +67,9 @@ srcを編集。
 │
 ├── src/（ビルド前のソース）
 │   ├── _partial/（共通パーツのhtml）
+│   ├── fonts/
+│   │    ├── _icons/ （アイコンフォント用svg）
+│   │    └── _templates/ （アイコンフォント用cssの雛形）
 │   ├── images/
 │   │    └── sprites/ （スプライト用png）
 │   ├── javascripts/
