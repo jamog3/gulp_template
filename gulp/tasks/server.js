@@ -6,7 +6,8 @@ var config  = require('../config');
 gulp.task('server', function() {
   browserSync({
     server: {
-      baseDir: config.dist.root
+      baseDir: config.dist.root,
+      directory: false
     }
   });
 });
