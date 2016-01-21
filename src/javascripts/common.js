@@ -1,5 +1,5 @@
 var $ = require('jquery');
-window.$ - $;
+window.$ = $;
 window.jQuery = $;
 /*
 var hoge = require('./browserify_libs/hoge.js');
