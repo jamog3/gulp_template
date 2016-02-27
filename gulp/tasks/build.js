@@ -4,11 +4,13 @@ var del = require('del');
 var config  = require('../config');
 
 // リリース時はこれを叩く
-gulp.task('build', ['build_main'], function() {
-  del('build'); // buildディレクトリを削除後に生成開始
+gulp.task('del', function(callback) {
+  console.log("sakujo");
+  del('build/**', callback);
 });
 
-gulp.task('build_main', function(callback){
+gulp.task('build', ['del'], function(){
+  console.log("compile");
   config.isBuildFlag = true;
   // pathの上書き
   config.dist.root = config.build.root;
@@ -25,9 +27,6 @@ gulp.task('build_main', function(callback){
     'imgMinPng',
     'js',
     'jsMin'
-    ]).on('end', function() {
-      // callbackを実行してgulpにタスク完了を通知
-      callback();
-    });
+    ]);
 });
 
