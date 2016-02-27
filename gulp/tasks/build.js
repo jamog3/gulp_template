@@ -5,12 +5,10 @@ var config  = require('../config');
 
 // リリース時はこれを叩く
 gulp.task('del', function(callback) {
-  console.log("sakujo");
-  del('build/**', callback);
+  del(config.build.root + '**', callback);
 });
 
 gulp.task('build', ['del'], function(){
-  console.log("compile");
   config.isBuildFlag = true;
   // pathの上書き
   config.dist.root = config.build.root;
