@@ -8,9 +8,12 @@ var config  = require('../config');
 
 // stylesheets
 var sass = require('gulp-sass');
-var autoprefixer = require('gulp-autoprefixer');
 var sourcemaps = require('gulp-sourcemaps');
-var combineMq = require('gulp-combine-mq');
+
+// PostCSS
+var postcss = require('gulp-postcss');
+var autoprefixer = require('autoprefixer');
+var mqpacker = require("css-mqpacker");
 
 // sassコンパイル
 gulp.task('css', function(){
@@ -31,23 +34,23 @@ gulp.task('css', function(){
         outputStyle: 'compressed'
       })
     ))
-    // Build時のみ、メディアクエリをまとめる
-    .pipe(gulpif( config.isBuildFlag ,
-      combineMq({
-        beautify: false
+    // PostCSS
+    .pipe(postcss([
+      // ベンダープレフィックス追加
+      autoprefixer({
+        browsers: [
+          'last 2 versions' ,
+          'ie 9' ,
+          'ios 6' ,
+          'android 4'
+        ],
+        cascade: false
+      }),
+      // メディアクエリをまとめる
+      mqpacker({
+        sort: true
       })
-    ))
-    // ベンダープレフィックス追加
-    .pipe(autoprefixer ({
-      browsers: [
-        'last 2 versions' ,
-        'ie 9' ,
-        'ios 6' ,
-        'android 4'
-      ],
-      cascade: false
-    }))
-    // Build時はなし。soucemapを生成。
+    ] ))
     .pipe(gulpif( !config.isBuildFlag , sourcemaps.write('.')))
     .pipe(gulp.dest(config.dist.css))
     .pipe(browserSync.reload({stream: true}));

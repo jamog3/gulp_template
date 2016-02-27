@@ -7,7 +7,7 @@ jQueryプラグインを追加する書き方
 */
 
 $(function(){
-  $("a[href^=#]").on('click', function(e){
+  $('a[href^="#]').on('click', function(e){
     e.preventDefault();
 
     var href = $(this).attr("href");

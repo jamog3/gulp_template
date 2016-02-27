@@ -32,7 +32,7 @@ $linkcolor: #8a8a8a
 $hovercolor: #fff
 $ls: 0.15em
 $minw: 1000px
-$spWidth: 640px
+$spWidth: 740px
 $MDMotion: cubic-bezier(0.55, 0, 0.1, 1)
 
 
@@ -66,18 +66,27 @@ $MDMotion: cubic-bezier(0.55, 0, 0.1, 1)
   color: #FFF
   display: flex
   +sprite($sample2)
+  @media screen and (max-width: $spWidth)
+    display: block
+
 
 .hoge2
   display: flex
   &:before
     display: block
     +iconfont($si-glyph-anchor)
+  @media screen and (max-width: $spWidth)
+    display: block
 
 .hoge3
   display: flex
+  @media screen and (max-width: $spWidth)
+    display: block
 
 .hoge4
   display: flex
+  @media screen and (max-width: $spWidth)
+    display: inline-block
 
 .hoge5
   display: flex
