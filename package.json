@@ -24,7 +24,7 @@
     "gulp-watch": "^4.2.4",
     "gulp.spritesmith": "^3.8.2",
     "imagemin-pngquant": "^4.1.0",
-    "jquery": "^1.11.0",
+    "jquery": "^1.12.2",
     "lodash": "^3.10.1",
     "path": "^0.12.7",
     "require-dir": "^0.3.0",
