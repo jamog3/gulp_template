@@ -6,10 +6,10 @@ var notify  = require('gulp-notify');
 var config  = require('../config');
 
 // javascripts
-var browserify = require('browserify');
-var source = require('vinyl-source-stream');
+var webpack = require('gulp-webpack');
 var uglify = require('gulp-uglify');
 var buffer = require('vinyl-buffer');
+var named = require('vinyl-named');
 
 
 gulp.task('js', function(){
@@ -24,15 +24,31 @@ gulp.task('js', function(){
     // Keep gulp from hanging on this task
     this.emit('end');
   };
-  browserify({
-    entries: [ config.src.js + 'common.js']
-  }).bundle()
-  .on('error', errorMsg)
-  .pipe(plumber())
-  .pipe(source('common.js'))
-  .pipe(buffer())
-  // .pipe(jshint())
-  .pipe(uglify({preserveComments:'some'})) // minify＆ライセンスコメント残す
-  .pipe(gulp.dest(config.dist.js))
-  .pipe(browserSync.reload({stream: true}));
+
+  gulp.src( config.src.js + '*.js')
+    .pipe(named())
+    .pipe(webpack({
+      devtool: "#inline-source-map",
+    module: {
+      loaders: [
+        {
+          test: /.js?$/,
+          loader: 'babel-loader',
+          exclude: /node_modules/,
+          query: {
+            presets: ['es2015'],
+            plugins: ['mjsx']
+          }
+        }
+      ]
+    }
+    }))
+    .on('error', errorMsg)
+    .pipe(plumber())
+    .pipe(buffer())
+    .pipe(uglify({preserveComments: 'some'}))
+    .pipe(gulp.dest('./dist/assets/javascripts/'))
+    .on('end', function() {
+      return browserSync.reload();
+    });
 });

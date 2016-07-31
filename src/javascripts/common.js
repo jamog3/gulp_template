@@ -1,27 +1,7 @@
-var $ = require('jquery');
-window.$ = $;
-window.jQuery = $;
-/*
-var hoge = require('./browserify_libs/hoge.js');
-jQueryプラグインを追加する書き方
-*/
+import SmoothScroll from './components/smoothscroll';
 
-$(function(){
-  var $anchorLink = $('a[href^="#"]');
+const $ = require('jquery');
 
-  $anchorLink.on('click', function(e){
-    e.preventDefault();
-
-    var href = $(this).attr("href");
-    var speed = 500;
-    var easing = 'swing';
-    var target = $(href == "#" || href == "" ? 'html' : href);
-    var animateParam = {
-        scrollTop: target.offset().top
-    }
-
-    $("html, body").animate(animateParam, speed, easing);
-  });
+$(()=>{
+  new SmoothScroll();
 });
-
-
