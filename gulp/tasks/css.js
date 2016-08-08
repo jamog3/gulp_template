@@ -39,9 +39,9 @@ gulp.task('css', function(){
       // ベンダープレフィックス追加
       autoprefixer({
         browsers: [
-          'last 2 versions' ,
+          'last 4 versions' ,
           'ie 9' ,
-          'ios 6' ,
+          'ios 7' ,
           'android 4'
         ],
         cascade: false

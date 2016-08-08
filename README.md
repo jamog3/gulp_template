@@ -18,7 +18,7 @@ $ npm install
 ## gulp の監視
 
 ```
-$ gulp
+$ npm start
 ```
 
 ## スプライト画像
@@ -26,7 +26,7 @@ $ gulp
 作成・更新は手動対応のため都度、下記のコマンドを実行
 
 ```
-$ gulp sprite
+$ npm run sprite
 ```
 
 ## アイコンフォント
@@ -34,7 +34,7 @@ $ gulp sprite
 作成・更新は手動対応のため都度、下記のコマンドを実行
 
 ```
-$ gulp iconfont
+$ npm run iconfont
 ```
 
 ## 納品ファイル生成
@@ -42,7 +42,7 @@ $ gulp iconfont
 cssのminifyや、.mapなどを省いたファイルを生成
 
 ```
-$ gulp build
+$ npm run build
 ```
 
 ## ディレクトリ構成
@@ -50,7 +50,7 @@ $ gulp build
 srcを編集。
 
 + jade -> html
-+ js -> browserify -> js
++ babel -> webpack -> js
 + sass -> css
 
 ```

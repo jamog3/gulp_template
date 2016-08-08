@@ -1,6 +1,12 @@
 {
   "name": "projectName",
   "version": "1.0.0",
+  "scripts": {
+    "start": "gulp",
+    "iconfont": "gulp iconfont",
+    "sprite": "gulp sprite",
+    "build": "gulp del && gulp build"
+  },
   "devDependencies": {
     "autoprefixer": "^6.3.3",
     "babel-core": "^6.11.4",
