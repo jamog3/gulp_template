@@ -2,7 +2,7 @@ var gulp = require('gulp');
 
 // default
 gulp.task('default', [
-  'server',
+  // 'server',
   'copy',
   'html',
   'css',
@@ -11,6 +11,6 @@ gulp.task('default', [
   'imgMinPng',
   'js',
   'jsMin',
-  'watch'
+  // 'watch'
 ]);
 
