@@ -9,5 +9,7 @@ gulp.task('default', [
   'imgMinPng',
   'js',
   'jsMin',
+  'watch',
+  'server'
 ]);
 

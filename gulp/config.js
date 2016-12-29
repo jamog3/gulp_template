@@ -11,8 +11,6 @@ module.exports = {
 
   // flag処理
   'isBuildFlag' : false,
-  'isEjsAllFlag'  : true,
-
 
   'src': {
     'root' : src,

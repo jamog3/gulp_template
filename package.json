@@ -2,7 +2,7 @@
   "name": "projectName",
   "version": "1.0.0",
   "scripts": {
-    "start": "gulp && gulp server && gulp watch",
+    "start": "gulp",
     "iconfont": "gulp iconfont",
     "sprite": "gulp sprite",
     "build": "gulp del_build && gulp build"

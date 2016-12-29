@@ -6,18 +6,7 @@ var config  = require('../config');
 gulp.task('watch', function(){
 
   // html
-  gulp.watch([
-    config.src.html + '**/*.jade',
-    '!' + config.src.html + '_partial/**/*'
-  ], function() {
-    // ejs個別
-    config.isHtmlAllFlag = false;
-    gulp.start('html');
-  });
-
-  gulp.watch(config.src.html + '_partial/**/*.jade', function() {
-    // ejs全体
-    config.isHtmlAllFlag = true;
+  gulp.watch(config.src.html + '**/*.pug', function() {
     gulp.start('html');
   });
 
