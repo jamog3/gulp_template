@@ -23,7 +23,7 @@ gulp.task('iconfont', function(){
         .pipe(gulp.dest( config.src.css + '_partial/' ));
     })
 
-  .pipe(gulp.dest( config.dist.root + 'fonts/' ));
+  .pipe(gulp.dest( config.src.root + 'fonts/' ));
 });
 
 
