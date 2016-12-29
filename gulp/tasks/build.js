@@ -3,12 +3,13 @@ var del = require('del');
 
 var config  = require('../config');
 
-// リリース時はこれを叩く
-gulp.task('del', function(callback) {
-  del(config.build.root + '**', callback);
+// リリース用ディレクトリを削除
+gulp.task('del_build', function() {
+  del(config.build.root + '**');
 });
 
-gulp.task('build', ['del'], function(){
+// リリース時はこれを叩く
+gulp.task('build', function(){
   config.isBuildFlag = true;
   // pathの上書き
   config.dist.root = config.build.root;

@@ -47,7 +47,7 @@ gulp.task('js', function(){
     .pipe(plumber())
     .pipe(buffer())
     .pipe(uglify({preserveComments: 'some'}))
-    .pipe(gulp.dest('./dist/assets/javascripts/'))
+    .pipe(gulp.dest(config.dist.js))
     .on('end', function() {
       return browserSync.reload();
     });

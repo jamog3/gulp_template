@@ -9,21 +9,20 @@ var reload = browserSync.reload;
 var config  = require('../config');
 
 // html
-// var ejs = require("gulp-ejs");
-var jade = require("gulp-jade");
+var pug = require("gulp-pug");
 
 gulp.task('html', function() {
   var rootPath = config.root + config.src.root;
   gulp.src([
-    config.src.html + '**/*.jade',
+    config.src.html + '**/*.pug',
     '!' + config.src.html + '_template/**/*'
     ])
     .pipe(plumber({
       errorHandler: notify.onError("Error: <%= error.message %>")
     }))
     // 変更されたファイルのみコンパイル。ejs全体の時は使わない
-    .pipe(gulpif( !config.isHtmlAllFlag , cached('jade') ))
-    .pipe(jade({
+    .pipe(gulpif( !config.isHtmlAllFlag , cached('pug') ))
+    .pipe(pug({
       // 出力ファイルが整形される
       pretty: true,
       // includeなどをルートパスで書けるようにする
