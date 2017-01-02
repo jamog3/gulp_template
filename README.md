@@ -49,9 +49,9 @@ $ npm run build
 
 srcを編集。
 
-+ jade -> html
-+ babel -> webpack -> js
++ pug -> html
 + sass -> css
++ babel -> js
 
 ```
 ├── .temp/（ビルド後のソース）
@@ -70,16 +70,18 @@ srcを編集。
 │   ├── fonts/
 │   │    ├── _icons/ （アイコンフォント用svg）
 │   │    └── _templates/ （アイコンフォント用cssの雛形）
+│   ├── html/
+│   │    ├── _templates/ （共通パーツのhtml）
+│   │    └── index.pug
 │   ├── images/
 │   │    └── sprites/ （スプライト用png）
 │   ├── javascripts/
 │   │    ├── browserify_libs/ （browserifyするjsをここに格納）
 │   │    ├── libs/ （browserifyしないjsをここに格納）
 │   │    └── main.js
-│   ├── stylesheets/
-│   │    ├── _partial/ （共通パーツのcss）
-│   │    └── style.scss
-│   └── index.ejs など（htmlは拡張子をejsにする）
+│   └── stylesheets/
+│         ├── _partial/ （共通パーツのcss）
+│         └── style.sass
 │
 ├── .git/
 ├── .gitignore
