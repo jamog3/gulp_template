@@ -3,7 +3,7 @@ var gulp = require('gulp');
 // default
 gulp.task('default', [
   'copy',
-  'html',
+  'html_noCache',
   'css',
   'imgMin',
   'imgMinPng',

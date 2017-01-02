@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "scripts": {
     "start": "gulp",
+    "build": "gulp del_build && gulp build",
     "iconfont": "gulp iconfont",
-    "sprite": "gulp sprite",
-    "build": "gulp del_build && gulp build"
+    "sprite": "gulp sprite"
+  },
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "ress": "^1.1.1"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.3",
@@ -17,7 +21,7 @@
     "css-mqpacker": "^5.0.1",
     "del": "^2.2.1",
     "gulp": "^3.8.11",
-    "gulp-cached": "^1.1.0",
+    "gulp-cached": "^1.1.1",
     "gulp-changed": "^1.2.1",
     "gulp-consolidate": "^0.2.0",
     "gulp-iconfont": "^8.0.1",
@@ -27,6 +31,7 @@
     "gulp-plumber": "^1.0.1",
     "gulp-postcss": "^6.1.0",
     "gulp-pug": "^3.2.0",
+    "gulp-pug-inheritance": "^0.2.1",
     "gulp-sass": "^2.0.1",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.2.0",
@@ -40,9 +45,5 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-named": "^1.1.0",
     "vinyl-source-stream": "^1.1.0"
-  },
-  "dependencies": {
-    "jquery": "^3.1.0",
-    "ress": "^1.1.1"
   }
 }

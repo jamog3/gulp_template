@@ -6,8 +6,16 @@ var config  = require('../config');
 gulp.task('watch', function(){
 
   // html
-  gulp.watch(config.src.html + '**/*.pug', function() {
+  gulp.watch([
+    config.src.html + '**/*.pug',
+    '!' + config.src.html + '_*/**/*.pug'
+  ], function() {
     gulp.start('html');
+  });
+
+  // html_all
+  gulp.watch(config.src.html + '_*/**/*.pug', function() {
+    gulp.start('html_noCache');
   });
 
   // css

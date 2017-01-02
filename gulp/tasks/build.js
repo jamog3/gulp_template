@@ -19,7 +19,7 @@ gulp.task('build', function(){
   config.dist.js = config.build.js;
   gulp.start([
     'copy',
-    'html',
+    'html_noCache',
     'css',
     'imgMin',
     'imgMinPng',
