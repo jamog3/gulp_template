@@ -3,11 +3,6 @@ var del = require('del');
 
 var config  = require('../config');
 
-// リリース用ディレクトリを削除
-gulp.task('del_build', function() {
-  del(config.build.root + '**');
-});
-
 // リリース時はこれを叩く
 gulp.task('build', function(){
   config.isBuildFlag = true;
