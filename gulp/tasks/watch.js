@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var watch = require('gulp-watch');
 
 var config  = require('../config');
 
@@ -16,6 +17,11 @@ gulp.task('watch', function(){
   // html_all
   gulp.watch(config.src.html + '_*/**/*.pug', function() {
     gulp.start('html_noCache');
+  });
+
+  // html_validator
+  watch(config.dist.html + '**/*.html', function() {
+    gulp.start('html_validator');
   });
 
   // css

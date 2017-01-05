@@ -7,6 +7,9 @@ var changed = require('gulp-changed');
 var cached = require('gulp-cached');
 var reload = browserSync.reload;
 
+var htmlValidator = require('gulp-html-validator');
+var intercept = require('gulp-intercept');
+
 var config  = require('../config');
 
 // html
@@ -27,9 +30,9 @@ gulp.task('html', function() {
       extension: ".html"
     }))
     .pipe(gulpif(global.isWatching, cached("pug")))
-    .pipe(pugInheritance({
-      basedir: config.src.html,
-    }))
+    // .pipe(pugInheritance({
+    //   basedir: config.src.html,
+    // }))
     .pipe(pug({
       // 出力ファイルが整形される
       pretty: true,
@@ -66,3 +69,29 @@ gulp.task('html_noCache', function() {
     .pipe(gulp.dest(config.dist.html))
     .on('end', reload);
 });
+
+// html validator
+gulp.task('html_validator', function() {
+  gulp.src(config.dist.html + '**/*.html')
+    .pipe(plumber({
+      errorHandler: notify.onError("Error: <%= error.message %>")
+    }))
+    .pipe(cached("htmlv"))
+    .pipe(htmlValidator({
+      format: 'json'
+    }))
+    .pipe(intercept(function(file) {
+      var errors, json;
+      json = JSON.parse(file.contents.toString());
+      errors = json.messages.filter(function(e, i, a) {
+        return e.type !== 'info';
+      });
+      if (errors.length !== 0) {
+        console.log('\u001b[31m\nHTML VALIDATOR ERROR!!');
+        console.log(errors);
+        return console.log('\u001b[0m\n');
+      }
+    }));
+
+});
+
