@@ -2,9 +2,9 @@ var gulp = require('gulp');
 var gulpif  = require('gulp-if');
 var browserSync = require('browser-sync');
 var plumber = require('gulp-plumber');
-var notify  = require('gulp-notify');
 
 var config  = require('../config');
+var ErrorHandler  = require('../utils/errorHandler');
 
 // stylesheets
 var sass = require('gulp-sass');
@@ -20,7 +20,7 @@ gulp.task('css', function(){
   gulp.src(config.src.css + '**/*.sass')
     // エラーメッセージ通知
     .pipe(plumber({
-      errorHandler: notify.onError("Error: <%= error.message %>")
+      errorHandler: ErrorHandler
     }))
     // Build時はなし
     .pipe(gulpif( !config.isBuildFlag , sourcemaps.init()))
