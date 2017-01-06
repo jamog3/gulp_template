@@ -2,19 +2,22 @@ var gulp = require('gulp');
 var gulpif  = require('gulp-if');
 var browserSync = require('browser-sync');
 var plumber = require('gulp-plumber');
-var notify  = require('gulp-notify');
 var changed = require('gulp-changed');
 var cached = require('gulp-cached');
 var reload = browserSync.reload;
 
-var htmlValidator = require('gulp-html-validator');
-var intercept = require('gulp-intercept');
-
 var config  = require('../config');
+var ErrorHandler  = require('../utils/errorHandler');
 
 // html
 var pug = require("gulp-pug");
 var pugInheritance = require("gulp-pug-inheritance");
+
+// html validator
+var htmlValidator = require('gulp-html-validator');
+var intercept = require('gulp-intercept');
+var notifier = require('node-notifier');
+var filenames = require('gulp-filenames');
 
 gulp.task('html', function() {
   var rootPath = config.root + config.src.html;
@@ -23,7 +26,7 @@ gulp.task('html', function() {
       '!' + config.src.html + '_*/**/*',
     ])
     .pipe(plumber({
-      errorHandler: notify.onError("Error: <%= error.message %>")
+      errorHandler: ErrorHandler
     }))
     // 変更されたファイルのみコンパイル。
     .pipe(changed(config.dist.html, {
@@ -44,17 +47,48 @@ gulp.task('html', function() {
       }
     }))
     .pipe(gulp.dest(config.dist.html))
+
+    // html validator
+    .pipe(filenames('html', {overrideMode: true}))
+    .pipe(htmlValidator({
+      format: 'json'
+    }))
+    .pipe(intercept(function(file) {
+      var errors, json;
+      json = JSON.parse(file.contents.toString());
+      errors = json.messages.filter(function(e, i, a) {
+        return e.type !== 'info';
+      });
+      if (errors.length !== 0) {
+        // 通知
+        notifier.notify({
+          message: filenames.get(['html'], ['full']) + 'にエラーが'+ errors.length +'件あります',
+          title: 'HTML VALIDATE ERROR!!',
+          sound: 'Glass'
+        });
+        console.log('\u001b[31m\nHTML VALIDATE ERROR!! (count: '+ errors.length +')\n');
+        for (var j = 0; j < errors.length; j++) {
+          console.log('file   : ' + filenames.get(['html'], ['full']));
+          console.log('line   : ' + errors[j].lastLine);
+          console.log('message: ' + errors[j].message);
+          console.log(errors[j].extract+ '\n');
+        }
+        // console.log(errors);
+        return console.log('\u001b[0m\n');
+      }
+    }))
+
     .on('end', reload);
 });
 
-gulp.task('html_noCache', function() {
+gulp.task('html_all', function() {
   var rootPath = config.root + config.src.html;
   gulp.src([
       config.src.html + '**/*.pug',
       '!' + config.src.html + '_*/**/*',
     ])
     .pipe(plumber({
-      errorHandler: notify.onError("Error: <%= error.message %>")
+      errorHandler: ErrorHandler
     }))
     .pipe(pug({
       // 出力ファイルが整形される
@@ -69,29 +103,3 @@ gulp.task('html_noCache', function() {
     .pipe(gulp.dest(config.dist.html))
     .on('end', reload);
 });
-
-// html validator
-gulp.task('html_validator', function() {
-  gulp.src(config.dist.html + '**/*.html')
-    .pipe(plumber({
-      errorHandler: notify.onError("Error: <%= error.message %>")
-    }))
-    .pipe(cached("htmlv"))
-    .pipe(htmlValidator({
-      format: 'json'
-    }))
-    .pipe(intercept(function(file) {
-      var errors, json;
-      json = JSON.parse(file.contents.toString());
-      errors = json.messages.filter(function(e, i, a) {
-        return e.type !== 'info';
-      });
-      if (errors.length !== 0) {
-        console.log('\u001b[31m\nHTML VALIDATOR ERROR!!');
-        console.log(errors);
-        return console.log('\u001b[0m\n');
-      }
-    }));
-
-});
-

@@ -19,11 +19,6 @@ gulp.task('watch', function(){
     gulp.start('html_noCache');
   });
 
-  // html_validator
-  watch(config.dist.html + '**/*.html', function() {
-    gulp.start('html_validator');
-  });
-
   // css
   gulp.watch(config.src.css + '**/*.sass', ['css']);
 
