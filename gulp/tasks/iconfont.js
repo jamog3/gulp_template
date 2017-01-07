@@ -5,7 +5,7 @@ var consolidate = require('gulp-consolidate');
 // var fontName    = 'iconfont'; // シンボルフォント名
 
 gulp.task('iconfont', function(){
-  gulp.src([ config.src.root + 'fonts/_icons/*.svg' ])
+  gulp.src([ config.src.root + 'iconfonts/_icons/*.svg' ])
     .pipe(iconfont({
       fontName: 'iconfont',
       fixedWidth: true,
@@ -13,7 +13,7 @@ gulp.task('iconfont', function(){
     }))
 
     .on('glyphs', function(glyphs, options) {
-      gulp.src( config.src.root + 'fonts/_templates/_iconfont.scss' )
+      gulp.src( config.src.root + 'iconfonts/_templates/_iconfont.scss' )
         .pipe(consolidate('lodash', {
           glyphs: glyphs,
           fontName: 'iconfont',
@@ -23,7 +23,7 @@ gulp.task('iconfont', function(){
         .pipe(gulp.dest( config.src.css + '_partial/' ));
     })
 
-  .pipe(gulp.dest( config.src.root + 'fonts/' ));
+  .pipe(gulp.dest( config.src.copy + 'fonts/' ));
 });
 
 

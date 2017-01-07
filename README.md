@@ -67,7 +67,9 @@ srcを編集。
 │
 ├── src/（ビルド前のソース）
 │   ├── _partial/（共通パーツのhtml）
-│   ├── fonts/
+│   ├── copy/（複製するだけのファイル用）
+│   │    └── （favicon.ico、iconfont など）
+│   ├── iconfonts/
 │   │    ├── _icons/ （アイコンフォント用svg）
 │   │    └── _templates/ （アイコンフォント用cssの雛形）
 │   ├── html/

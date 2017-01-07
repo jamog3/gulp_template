@@ -1,9 +1,9 @@
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var plumber = require('gulp-plumber');
-var notify  = require('gulp-notify');
 
 var config  = require('../config');
+var ErrorHandler  = require('../utils/errorHandler');
 
 // javascripts
 var uglify = require('gulp-uglify');
@@ -13,7 +13,7 @@ var uglify = require('gulp-uglify');
 gulp.task('jsMin', function(){
   gulp.src(config.src.js + 'libs/*')
     .pipe(plumber({
-      errorHandler: notify.onError("Error: <%= error.message %>")
+      errorHandler: ErrorHandler
     }))
     .pipe(uglify({preserveComments:'some'})) // minify＆ライセンスコメント残す
     .pipe(gulp.dest(config.dist.js + 'libs/'))

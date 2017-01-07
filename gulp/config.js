@@ -17,7 +17,8 @@ module.exports = {
     'html' : src + 'html/',
     'css'  : src + 'stylesheets/',
     'img'  : src + 'images/',
-    'js'   : src + 'javascripts/'
+    'js'   : src + 'javascripts/',
+    'copy' : src + 'copy/'
   },
 
   'dist': {
