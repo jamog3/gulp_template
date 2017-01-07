@@ -8,10 +8,11 @@ var reload = browserSync.reload;
 
 var config  = require('../config');
 var ErrorHandler  = require('../utils/errorHandler');
+var ErrorHandlerLinter  = require('../utils/errorHandlerLinter');
 
 // html
 var pug = require("gulp-pug");
-var puglint = require("gulp-pug-lint");
+var pugLinter = require('gulp-pug-linter');
 var pugInheritance = require("gulp-pug-inheritance");
 
 // html validator
@@ -37,9 +38,10 @@ gulp.task('html', function() {
     // .pipe(pugInheritance({
     //   basedir: config.src.html,
     // }))
-    .pipe(puglint({
+    .pipe(pugLinter({
       'extends': '.pug-lintrc',
     }))
+    .pipe(pugLinter.reporter(ErrorHandlerLinter))
     .pipe(pug({
       // 出力ファイルが整形される
       pretty: true,
@@ -94,9 +96,10 @@ gulp.task('html_all', function() {
     .pipe(plumber({
       errorHandler: ErrorHandler
     }))
-    .pipe(puglint({
+    .pipe(pugLinter({
       'extends': '.pug-lintrc',
     }))
+    .pipe(pugLinter.reporter(ErrorHandlerLinter))
     .pipe(pug({
       // 出力ファイルが整形される
       pretty: true,
