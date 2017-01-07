@@ -11,6 +11,7 @@ var ErrorHandler  = require('../utils/errorHandler');
 
 // html
 var pug = require("gulp-pug");
+var puglint = require("gulp-pug-lint");
 var pugInheritance = require("gulp-pug-inheritance");
 
 // html validator
@@ -36,6 +37,9 @@ gulp.task('html', function() {
     // .pipe(pugInheritance({
     //   basedir: config.src.html,
     // }))
+    .pipe(puglint({
+      'extends': '.pug-lintrc',
+    }))
     .pipe(pug({
       // 出力ファイルが整形される
       pretty: true,
@@ -74,7 +78,7 @@ gulp.task('html', function() {
           console.log(errors[j].extract+ '\n');
         }
         // console.log(errors);
-        return console.log('\u001b[0m\n');
+        return console.log('\u001b[0m');
       }
     }))
 
@@ -89,6 +93,9 @@ gulp.task('html_all', function() {
     ])
     .pipe(plumber({
       errorHandler: ErrorHandler
+    }))
+    .pipe(puglint({
+      'extends': '.pug-lintrc',
     }))
     .pipe(pug({
       // 出力ファイルが整形される

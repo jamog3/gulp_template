@@ -1,0 +1,37 @@
+{
+  "disallowHtmlText": true,
+  "disallowMultipleLineBreaks": true,
+  "disallowSpecificAttributes": [
+    "xmlns",
+    { "br": "role" },
+    { "hr": "role" },
+    { "nav": "role" }
+  ],
+  "disallowSpecificTags": [
+    "hgroup",
+    "i",
+    "s",
+    "u"
+  ],
+  "maximumNumberOfLines": 30,
+  "requireClassLiteralsBeforeIdLiterals": true,
+  "requireIdLiteralsBeforeAttributes": true,
+  "requireLineFeedAtFileEnd": true,
+  "requireLowerCaseAttributes": true,
+  "requireLowerCaseTags": true,
+  "requireSpaceAfterCodeOperator": true,
+  "requireSpecificAttributes": [
+    { "abbr": "title" },
+    { "html": "lang" },
+    { "meter": [ "min", "max" ]},
+    { "progress": "max" }
+  ],
+  "requireStrictEqualityOperators": true,
+  "validateAttributeQuoteMarks": "'",
+  "validateAttributeSeparator": {
+    "separator": ", ",
+    "multiLineSeparator": ",\n  "
+  },
+  "validateDivTags": true,
+  "validateIndentation": 2
+}
