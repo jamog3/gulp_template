@@ -16,7 +16,7 @@ gulp.task('watch', function(){
 
   // html_all
   gulp.watch(config.src.html + '_*/**/*.pug', function() {
-    gulp.start('html_noCache');
+    gulp.start('html_all');
   });
 
   // css

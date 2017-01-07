@@ -30,7 +30,7 @@ gulp.task('html', function() {
     }))
     // 変更されたファイルのみコンパイル。
     .pipe(changed(config.dist.html, {
-      extension: ".html"
+      extension: '.html'
     }))
     .pipe(gulpif(global.isWatching, cached("pug")))
     // .pipe(pugInheritance({

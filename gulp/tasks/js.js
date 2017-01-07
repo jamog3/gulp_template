@@ -21,7 +21,7 @@ gulp.task('js', function(){
     // .pipe(plumber())
     .pipe(named())
     .pipe(webpack({
-      devtool: "#inline-source-map",
+      devtool: '#inline-source-map',
       module: {
         loaders: [
           {
