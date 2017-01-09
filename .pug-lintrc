@@ -27,7 +27,7 @@
     { "progress": "max" }
   ],
   "requireStrictEqualityOperators": true,
-  "validateAttributeQuoteMarks": "'",
+  "validateAttributeQuoteMarks": "\"",
   "validateAttributeSeparator": {
     "separator": ", ",
     "multiLineSeparator": ",\n  "
