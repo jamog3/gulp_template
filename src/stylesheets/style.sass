@@ -1,4 +1,4 @@
-@charset "utf-8"
+@charset 'utf-8'
 
 @import '../../node_modules/ress/ress'
 
@@ -7,27 +7,27 @@
 @import '_partial/sprites'
 @import '_partial/base'
 
-
 .hoge
-  padding: 10px
-  color: #FFF
-  display: flex
   +sprite($sample2)
+  display: flex
+  padding: 10px
+  color: #fff
   @media screen and (max-width: $spWidth)
     display: block
-
 
 .hoge2
   display: flex
   &:before
-    display: block
     +iconfont($si-glyph-anchor)
+    display: block
   @media screen and (max-width: $spWidth)
     display: block
 
 .hoge3
   display: flex
   @media screen and (max-width: $spWidth)
+    display: block
+  &__hoge
     display: block
 
 .hoge4

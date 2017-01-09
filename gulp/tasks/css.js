@@ -8,6 +8,7 @@ var ErrorHandler  = require('../utils/errorHandler');
 
 // stylesheets
 var sass = require('gulp-sass');
+var sassLint = require('gulp-sass-lint');
 var sourcemaps = require('gulp-sourcemaps');
 
 // PostCSS
@@ -22,6 +23,16 @@ gulp.task('css', function(){
     .pipe(plumber({
       errorHandler: ErrorHandler
     }))
+    // lint
+    .pipe(sassLint({
+      configFile: '.sass-lint.yml',
+      files: {
+        ignore: config.src.css + '_partial/*.sass'
+      }
+    }))
+    .pipe(sassLint.format())
+    .pipe(sassLint.failOnError())
+    // .pipe(sassLint.failOnError(ErrorHandlerLinter))
     // Build時はなし
     .pipe(gulpif( !config.isBuildFlag , sourcemaps.init()))
     .pipe(gulpif( !config.isBuildFlag ,
