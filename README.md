@@ -37,6 +37,14 @@ $ npm run sprite
 $ npm run iconfont
 ```
 
+## sassの整形
+
+手動対応のため区切りのいいタイミングで都度、下記のコマンドを実行
+
+```
+$ npm run csscomb
+```
+
 ## 納品ファイル生成
 
 cssのminifyや、.mapなどを省いたファイルを生成
