@@ -66,7 +66,6 @@ srcを編集。
 ├── build/（納品ファイルがここに生成される）
 │
 ├── src/（ビルド前のソース）
-│   ├── _partial/（共通パーツのhtml）
 │   ├── copy/（複製するだけのファイル用）
 │   │    └── （favicon.ico、iconfont など）
 │   ├── iconfonts/

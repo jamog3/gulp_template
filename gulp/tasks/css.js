@@ -11,10 +11,30 @@ var sass = require('gulp-sass');
 var sassLint = require('gulp-sass-lint');
 var sourcemaps = require('gulp-sourcemaps');
 
+// CSSComb
+var csscomb = require('gulp-csscomb');
+var cached = require('gulp-cached');
+
 // PostCSS
 var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
 var mqpacker = require("css-mqpacker");
+
+// cssの整形
+gulp.task('csscomb', function() {
+  gulp.src([
+    config.src.css + '**/*.sass',
+    '!' + config.src.css + '_partial/_base.sass',
+    '!' + config.src.css + '_partial/_iconfont.sass',
+    '!' + config.src.css + '_partial/_sprites.sass'
+  ])
+  .pipe(plumber({
+    errorHandler: ErrorHandler
+  }))
+  .pipe(cached('csscomb'))
+  .pipe(csscomb())
+  .pipe(gulp.dest(config.src.css));
+});
 
 // sassコンパイル
 gulp.task('css', function(){
