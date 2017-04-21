@@ -18,11 +18,17 @@ gulp.task('js', function(){
     .pipe(plumber({
       errorHandler: ErrorHandler
     }))
-    // .pipe(plumber())
     .pipe(named())
     .pipe(webpack({
       devtool: '#inline-source-map',
       module: {
+        preLoaders: [
+          {
+            test: /\.js?$/,
+            exclude: /node_modules/,
+            loader: "eslint-loader"
+          }
+        ],
         loaders: [
           {
             test: /.js?$/,
@@ -34,6 +40,9 @@ gulp.task('js', function(){
             }
           }
         ]
+      },
+      eslint: {
+        configFile: './.eslintrc'
       }
     }))
     .pipe(buffer())

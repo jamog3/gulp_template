@@ -1,0 +1,40 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "mocha": true
+  },
+  "ecmaFeatures": {
+    "modules": true
+  },
+  "settings": {
+    "import/resolve": {
+      "extenstions": [ ".es6", ".js" ]
+    },
+    "import/parser": "babel-eslint"
+  },
+  "extends": ["eslint:recommended", "airbnb"],
+  "rules": {
+    "strict": [2, "function"],
+    "no-undef": 2,
+    "arrow-parens": [0],
+    "no-console": ["warn", { allow: ["warn", "error"] }],
+    "comma-dangle": ["error", "never"],
+    "import/no-unresolved": [0, { commonjs: true, amd: true }],
+    "camelcase": [0, {"properties": "always"}],
+    "new-cap": [0],
+    "no-param-reassign": [0],
+    "import/order": ["error", {"groups": ["builtin", "external", "internal", "parent", "sibling", "index"]}]
+  },
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "import"
+  ]
+}

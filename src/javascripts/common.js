@@ -2,6 +2,7 @@ import SmoothScroll from './components/smoothscroll';
 
 const $ = require('jquery');
 
-$(()=>{
-  new SmoothScroll();
+$(() => {
+  const smoothScroll = new SmoothScroll();
+  smoothScroll();
 });

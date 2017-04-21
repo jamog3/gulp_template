@@ -4,7 +4,7 @@ export default class smoothscroll {
   constructor() {
     const $anchorLink = $('a[href^="#"]');
 
-    $anchorLink.on('click', function(e){
+    $anchorLink.on('click', (e) => {
       e.preventDefault();
 
       const href = $(this).attr('href');
@@ -12,7 +12,7 @@ export default class smoothscroll {
       const easing = 'swing';
       const target = $(href === '#' || href === '' ? 'html' : href);
       const animateParam = {
-          scrollTop: target.offset().top
+        scrollTop: target.offset().top
       };
       $('html, body').animate(animateParam, speed, easing);
     });
