@@ -9,11 +9,11 @@
   font-style: normal;
 }
 
-<% _.each(glyphs, function(glyph) { %>$<%= glyph.name %>: '\<%= glyph.unicode[0].charCodeAt(0).toString(16).toUpperCase() %>';
+<% _.each(glyphs, function(glyph) { %>$<%= glyph.name %>: \<%= glyph.unicode[0].charCodeAt(0).toString(16).toUpperCase() %>;
 <% }); %>
 
 @mixin iconfont($iconfontName) {
-  content: '#{$iconfontName}';
+  content: unquote('\'') + $iconfontName + unquote('\'');
   font-family: '<%= fontName %>';
   font-style: normal;
   font-weight: normal;
