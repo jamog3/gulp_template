@@ -7,7 +7,7 @@ export default class smoothscroll {
     $anchorLink.on('click', (e) => {
       e.preventDefault();
 
-      const href = $(this).attr('href');
+      const href = $(e.target).attr('href');
       const speed = 240;
       const easing = 'swing';
       const target = $(href === '#' || href === '' ? 'html' : href);
