@@ -40,7 +40,7 @@ rules:
     - 1
     - style: lowercase
   id-name-format:
-    - 1
+    - 0
     - convention: hyphenatedlowercase
   indentation:
     - 0
@@ -56,7 +56,7 @@ rules:
   mixins-before-declarations: 1
   nesting-depth:
     - 1
-    - max-depth: 3
+    - max-depth: 10
   no-color-keywords: 1
   no-color-literals: 0
   no-css-comments: 1
@@ -64,13 +64,14 @@ rules:
   no-duplicate-properties: 1
   no-empty-rulesets: 1
   no-extends: 0
-  no-ids: 2
+  no-ids: 0
   no-important: 1
   no-invalid-hex: 1
   no-mergeable-selectors: 1
   no-misspelled-properties:
     - 1
-    - extra-properties: []
+    - 'extra-properties':
+        - 'overflow-scrolling'
   no-qualifying-elements:
     - 1
     - allow-element-with-attribute: false
@@ -127,7 +128,7 @@ rules:
     - 1
     - style: single
   shorthand-values:
-    - 1
+    - 0
     - allowed-shorthands:
         - 1
         - 2
