@@ -40,7 +40,9 @@ module.exports = {
   // copyするファイル
   'copy': [
     '**/*.ico',
-    'fonts/*.*'
+    '**/*.eot',
+    '**/*.ttf',
+    '**/*.woff',
   ],
 
   // jshintの対象ファイル
