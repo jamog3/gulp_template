@@ -10,6 +10,7 @@ var ErrorHandler  = require('../utils/errorHandler');
 var sass = require('gulp-sass');
 var sassLint = require('gulp-sass-lint');
 var sourcemaps = require('gulp-sourcemaps');
+var minifyCss = require('gulp-minify-css');
 
 // CSSComb
 var csscomb = require('gulp-csscomb');
@@ -18,7 +19,7 @@ var cached = require('gulp-cached');
 // PostCSS
 var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
-var mqpacker = require("css-mqpacker");
+var mqpacker = require('css-mqpacker');
 
 // cssの整形
 gulp.task('csscomb', function() {
@@ -52,19 +53,12 @@ gulp.task('css', function(){
     }))
     .pipe(sassLint.format())
     .pipe(sassLint.failOnError())
-    // .pipe(sassLint.failOnError(ErrorHandlerLinter))
     // Build時はなし
-    .pipe(gulpif( !config.isBuildFlag , sourcemaps.init()))
-    .pipe(gulpif( !config.isBuildFlag ,
-      sass({
-        // mapの行数がズレるため、compressedにしない
-        outputStyle: 'expanded' // nested/expanded/compact/compressed の4種類から選択
-      }) ,
-      // Buildのとき
-      sass({
-        outputStyle: 'compressed'
-      })
-    ))
+    .pipe(gulpif( !config.isBuildFlag, sourcemaps.init()))
+    .pipe(sass({
+      // sourcemapがうまく出力されないので、この時点ではminifyしない
+      outputStyle: 'expanded' // nested/expanded/compact/compressed の4種類から選択
+    }))
     // PostCSS
     .pipe(postcss([
       // ベンダープレフィックス追加
@@ -72,7 +66,7 @@ gulp.task('css', function(){
         browsers: [
           'last 4 versions' ,
           'ie 9' ,
-          'ios 7' ,
+          'ios 8' ,
           'android 4'
         ],
         cascade: false
@@ -82,7 +76,9 @@ gulp.task('css', function(){
         sort: true
       })
     ] ))
-    .pipe(gulpif( !config.isBuildFlag , sourcemaps.write('.')))
+    // sourcemapがうまく出力されないので、build時のみminify
+    .pipe(gulpif( config.isBuildFlag, minifyCss({advanced: false})))
+    .pipe(gulpif( !config.isBuildFlag, sourcemaps.write('./')))
     .pipe(gulp.dest(config.dist.css))
     .pipe(browserSync.reload({stream: true}));
 });
