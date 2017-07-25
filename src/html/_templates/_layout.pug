@@ -1,49 +1,62 @@
 //- 変数初期設定
 - var head = {}
-- head.title       = ''
-- head.keywords    = ''
-- head.description = ''
-- var filePath = '/'
-
-- var siteTitle       = 'サイトタイトル'
-- var siteKeywords    = 'サイトタイトル'
-- var siteDescription = 'サイトタイトル'
-- var siteURL         = 'http://hoge.com'
+- var filePath = "/"
 
 //- 変数読み込み
 block vars
 
+//- デフォルト設定
+- var site         = {}
+- site.title       = "site title"
+- site.keywords    = "keyword"
+- site.description = "description"
+- site.url         = "http://hoge.com"
+
+if !head.keywords
+  - head.keywords    = site.keywords
+if !head.description
+  - head.description = site.description
+
 doctype html
-html(lang='ja')
+html(lang="ja")
   head
-    meta(charset='utf-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    meta(name="format-detection", content="telephone=no, address=no, email=no")
 
-    if head.title === ''
-      title #{siteTitle}
+    if !head.title
+      title #{site.title}
     else
-      title #{head.title}｜#{siteTitle}
+      title #{head.title}｜#{site.title}
 
-    meta(name="keywords", content="#{head.keywords}")
-    meta(name="description", content="#{head.description}")
+    meta(name="keywords", content=`${head.keywords}`)
+    meta(name="description", content=`${head.description}`)
 
-    if head.title === ''
-      meta(property="og:title", content="#{siteTitle}")
+    //- facebook
+    if !head.title
+      meta(property="og:title", content=`${site.title}`)
     else
-      meta(property="og:title", content="#{head.title}｜#{siteTitle}")
+      meta(property="og:title", content=`${head.title}｜${site.title}`)
 
-    meta(property="og:description", content="#{head.description}")
-    meta(property="og:url", content="#{siteURL}#{filePath}")
+    meta(property="og:description", content=`${head.description}`)
+    meta(property="og:url", content=`${site.url}${filePath}`)
     meta(property="og:locale", content="ja_JP")
 
-    if filePath === '/'
+    if filePath === "/"
       meta(property="og:type", content="website")
     else
       meta(property="og:type", content="article")
 
     meta(property="og:image", content="")
-    link(rel='stylesheet', href='./stylesheets/style.css')
-    link(rel='icon', type='image/png', href='/favicon.png', sizes='32x32')
+    meta(property="og:site_name", content="")
+
+    //- twitter
+    meta(name="twitter:card", content="summary")
+    meta(name="twitter:site", content="@twitter")
+    meta(property="twitter:account_id", content="00000000000")
+
+    link(rel="stylesheet", href="./stylesheets/style.css")
+    link(rel="icon", type="image/png", href="/favicon.png", sizes="32x32")
 
   body
     .wrap
@@ -53,5 +66,5 @@ html(lang='ja')
 
     block content
 
-    script(src='./javascripts/common.js')
+    script(src="./javascripts/common.js")
 
