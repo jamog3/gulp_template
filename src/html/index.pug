@@ -1,13 +1,13 @@
 extends /_templates/_layout
 
 block vars
-  - var head         = {}
-  - head.title       = ""
-  - head.keywords    = ""
-  - head.description = ""
-  - var filePath     = "/"
+  - var page         = {}
+  - page.title       = ""
+  - page.keywords    = ""
+  - page.description = ""
+  - var filePath     = "/" //- 必須。詳しくはreadmeを参照
 
 block content
   h2.hoge ほげほげ2
   h3.hoge2#hoge ほげほげ3
-    img(src="a.png", alt="hoge")
+    img(src=`${depth}images/a.png`, alt="hoge")

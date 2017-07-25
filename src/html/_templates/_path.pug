@@ -1,0 +1,11 @@
+//- 変数読み込み
+block vars
+
+- var depthNum = (filePath. match(/\//g)||[]).length - 1;
+- var depth = "./"
+if depthNum > 0
+  - var depthArr = []
+  - for (var i = 0; i < depthNum; i++) {
+    - depthArr[i] = "../"
+  - }
+  - depth = depthArr.join("")

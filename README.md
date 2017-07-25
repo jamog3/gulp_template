@@ -37,7 +37,24 @@ $ npm run sprite
 $ npm run iconfont
 ```
 
-## sassの整形
+## pug
+
+### 各ファイルのfilePathという変数
+
+下記のようなルールで記載。末尾に`.html`などが付かない場合は必ず`/`で締める。
+
++ http://hoge.com/ : `"/"`
++ http://hoge.com/hoge.html : `"/hoge.html"`
++ http://hoge.com/foo/ : `"/foo/"`
++ http://hoge.com/foo/bar.html : `"/foo/bar.html"`
+
+
+### ファイルの指定
+
+`${depth}` でルートを指す
+
+## sass
+### 整形
 
 手動対応のため区切りのいいタイミングで都度、下記のコマンドを実行。<br>
 srcを直接いじるので、こまめにやるかバックアップとらないと大変なことになるかも

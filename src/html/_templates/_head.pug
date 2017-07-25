@@ -1,6 +1,9 @@
-//- ファイルのルートパスを取得
-//- - var filePath = filename.replace(rootPath,'/').replace('index.ejs','').replace('.ejs','')
+include /_templates/_path
 
-p #{path}
-p #{options}
-p #{returns}
+p #{filePath}
+p #{depth}
+
+if filePath === "/"
+  h1 TOP
+else
+  p 下層
