@@ -1,5 +1,4 @@
 {
-  "block-indent": "  ",
   "stick-brace": " ",
   "space-before-opening-brace": " ",
   "stick-brace": "\n",
@@ -12,6 +11,7 @@
   "space-before-combinator": " ",
   "space-before-opening-brace": " ",
   "space-before-selector-delimiter": "",
+  "space-between-declarations": "\n",
   "color-case": "lower",
   "color-shorthand": true,
   "unitless-zero": true,
@@ -304,6 +304,8 @@
       "filter:progid:DXImageTransform.Microsoft.gradient",
       "-ms-filter:\\'progid:DXImageTransform.Microsoft.gradient",
       "text-shadow",
+      "object-fit",
+      "object-position",
       "@media"
     ]
   ]
