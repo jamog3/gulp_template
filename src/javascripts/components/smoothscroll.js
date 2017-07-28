@@ -1,20 +1,19 @@
 const $ = require('jquery');
 
-export default class smoothscroll {
-  constructor() {
-    const $anchorLink = $('a[href^="#"]');
+export const SmoothScroll = (y = 0) => {
+  const $anchorLink = $('a[href^="#"]');
 
-    $anchorLink.on('click', (e) => {
-      e.preventDefault();
+  $anchorLink.on('click', (event) => {
+    event.preventDefault();
+    const href = $(event.target).attr('href');
+    const speed = 240;
+    const easing = 'swing';
+    const target = $(href === '#' || href === '' ? 'html' : href);
+    const animateParam = {
+      scrollTop: target.offset().top + y
+    };
+    $('html, body').animate(animateParam, speed, easing);
+  });
+};
 
-      const href = $(e.target).attr('href');
-      const speed = 240;
-      const easing = 'swing';
-      const target = $(href === '#' || href === '' ? 'html' : href);
-      const animateParam = {
-        scrollTop: target.offset().top
-      };
-      $('html, body').animate(animateParam, speed, easing);
-    });
-  }
-}
+export default SmoothScroll;
