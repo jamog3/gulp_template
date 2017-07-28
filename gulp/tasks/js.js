@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var gulpif  = require('gulp-if');
 var browserSync = require('browser-sync');
 var plumber = require('gulp-plumber');
 var notify  = require('gulp-notify');
@@ -46,7 +47,7 @@ gulp.task('js', function(){
       }
     }))
     .pipe(buffer())
-    .pipe(uglify({preserveComments: 'some'}))
+    .pipe(gulpif( config.isBuildFlag, uglify({preserveComments: 'some'})))
     .pipe(gulp.dest(config.dist.js))
     .on('end', function() {
       return browserSync.reload();
