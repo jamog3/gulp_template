@@ -10,7 +10,7 @@ var ErrorHandler  = require('../utils/errorHandler');
 var sass = require('gulp-sass');
 var sassLint = require('gulp-sass-lint');
 var sourcemaps = require('gulp-sourcemaps');
-var minifyCss = require('gulp-minify-css');
+var cleanCSS = require('gulp-clean-css');
 
 // CSSComb
 var csscomb = require('gulp-csscomb');
@@ -77,7 +77,7 @@ gulp.task('css', function(){
       })
     ] ))
     // sourcemapがうまく出力されないので、build時のみminify
-    .pipe(gulpif( config.isBuildFlag, minifyCss({advanced: false})))
+    .pipe(gulpif( config.isBuildFlag, cleanCSS()))
     .pipe(gulpif( !config.isBuildFlag, sourcemaps.write('./')))
     .pipe(gulp.dest(config.dist.css))
     .pipe(browserSync.reload({stream: true}));
