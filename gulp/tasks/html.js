@@ -41,6 +41,7 @@ gulp.task('html', function() {
     .pipe(pugLinter({
       'extends': '.pug-lintrc',
     }))
+    .pipe(pugLinter.reporter())
     .pipe(pugLinter.reporter(ErrorHandlerLinter))
     .pipe(pug({
       // 出力ファイルが整形される
