@@ -6,20 +6,23 @@
 @import '_partial/iconfont'
 @import '_partial/sprites'
 @import '_partial/base'
+@import '_partial/utility'
+
+// @import '_blocks/*'
 
 .hoge
   +sprite($sample2)
   display: flex
   padding: 10px
   color: #fff
-  @media screen and (max-width: $spWidth)
+  @media screen and (max-width: $sp-width)
     display: block
 
 .hoge2
   &:before
     +iconfont($si-glyph-anchor)
     display: inline-block
-    @media screen and (max-width: $spWidth)
+    @media screen and (max-width: $sp-width)
       display: block
   &__image-wrapper
     display: block
@@ -33,7 +36,7 @@
 
 .hoge3
   display: flex
-  @media screen and (max-width: $spWidth)
+  @media screen and (max-width: $sp-width)
     display: block
   &__hoge
     display: block
@@ -42,7 +45,7 @@
 
 .hoge4
   display: flex
-  @media screen and (max-width: $spWidth)
+  @media screen and (max-width: $sp-width)
     display: inline-block
 
 .hoge5
