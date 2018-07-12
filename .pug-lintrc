@@ -13,7 +13,7 @@
     "s",
     "u"
   ],
-  "maximumNumberOfLines": 30,
+  "maximumNumberOfLines": 3000,
   "requireClassLiteralsBeforeIdLiterals": true,
   "requireIdLiteralsBeforeAttributes": true,
   "requireLineFeedAtFileEnd": true,

@@ -11,6 +11,8 @@ var sass = require('gulp-sass');
 var sassLint = require('gulp-sass-lint');
 var sourcemaps = require('gulp-sourcemaps');
 var cleanCSS = require('gulp-clean-css');
+var sassGlob = require('gulp-sass-glob');
+var packageImporter = require('node-sass-package-importer');
 
 // CSSComb
 var csscomb = require('gulp-csscomb');
@@ -55,7 +57,11 @@ gulp.task('css', function(){
     .pipe(sassLint.failOnError())
     // Build時はなし
     .pipe(gulpif( !config.isBuildFlag, sourcemaps.init()))
+    .pipe(sassGlob())
     .pipe(sass({
+      importer: packageImporter({
+        extensions: ['.scss', '.css']
+      }),
       // sourcemapがうまく出力されないので、この時点ではminifyしない
       outputStyle: 'expanded' // nested/expanded/compact/compressed の4種類から選択
     }))
