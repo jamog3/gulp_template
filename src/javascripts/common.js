@@ -1,7 +1,6 @@
-import { SmoothScroll } from './components/smoothscroll';
-
-const $ = require('jquery');
+import $ from 'jquery';
+import { smoothScroll } from './components/smoothscroll';
 
 $(() => {
-  SmoothScroll(0);
+  smoothScroll(0);
 });

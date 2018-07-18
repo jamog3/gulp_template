@@ -1,6 +1,6 @@
-const $ = require('jquery');
+import $ from 'jquery';
 
-export const SmoothScroll = (y = 0) => {
+export const smoothScroll = (y = 0) => {
   const $anchorLink = $('a[href^="#"]');
 
   $anchorLink.on('click', (event) => {
@@ -16,4 +16,4 @@ export const SmoothScroll = (y = 0) => {
   });
 };
 
-export default SmoothScroll;
+export default smoothScroll;
